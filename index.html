@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>University Gyaan — Notice और Study Material भेजें</title>
 <link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <meta name="description" content="University Gyaan के लिए Notice या Study Material भेजें। Telegram की ज़रूरत नहीं।">
 <meta name="theme-color" content="#0A1F6B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,6 +158,14 @@ textarea.inp{min-height:84px;resize:vertical}
   min-height: 70vh;
   text-align: center;
 }
+.landing-logo {
+  width: 140px;
+  height: 140px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  object-fit: cover;
+}
 .landing-title {
   font-size: 38px;
   font-weight: 800;
@@ -283,6 +292,7 @@ $("#backBtn").addEventListener("click", () => {
 function landing(v) {
   v.innerHTML = `
     <div class="landing-center">
+      <img src="favicon.png" alt="University Gyaan Logo" class="landing-logo">
       <div class="landing-title">University Gyaan</div>
       <div class="landing-subtitle">Student का योगदान</div>
       <button class="btn-3d" data-act="go" data-to="welcome">PROCEED</button>
@@ -506,7 +516,7 @@ async function materialForm(v) {
 }
 
 /* ---------- submit ---------- */
-function setProg(p, t) { $("#prog").classList.add("show"); $("#barI").style.width = p + "\%"; $("#progT").textContent = t; }
+function setProg(p, t) { $("#prog").classList.add("show"); $("#barI").style.width = p + "%"; $("#progT").textContent = t; }
 function uploadToCloudinary(file, onProgress) {
   return new Promise((resolve, reject) => {
     const fd = new FormData();
