@@ -28,7 +28,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 .topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
 .topbar-in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;min-height:40px}
-.mark{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--navy);font-weight:700;display:grid;place-items:center;letter-spacing:.5px;flex:none}
+.mark{width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;display:grid;place-items:center;letter-spacing:.5px;flex:none}
+.mark-img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#fff;flex:none;border:2px solid rgba(255,255,255,.85)}
 .brand{font-weight:600;font-size:18px;line-height:1.1}
 .brand small{display:block;font-weight:400;font-size:13px;opacity:.8}
 .back{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:15px}
@@ -185,7 +186,8 @@ textarea.inp{min-height:84px;resize:vertical}
 
 <header class="topbar">
   <div class="topbar-in">
-    <div class="mark" aria-hidden="true">UG</div>
+    <img class="mark-img" src="favicon.png" alt="University Gyaan Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+    <div class="mark" aria-hidden="true" style="display:none">UG</div>
     <div class="brand">University Gyaan<small>Student का योगदान</small></div>
     <button class="back" id="backBtn" type="button" hidden>पीछे</button>
   </div>
@@ -292,7 +294,7 @@ $("#backBtn").addEventListener("click", () => {
 function landing(v) {
   v.innerHTML = `
     <div class="landing-center">
-      <img src="favicon.png" alt="University Gyaan Logo" class="landing-logo">
+      <img src="favicon.png" alt="University Gyaan Logo" class="landing-logo" onerror="this.style.display='none'">
       <div class="landing-title">University Gyaan</div>
       <div class="landing-subtitle">Student का योगदान</div>
       <button class="btn-3d" data-act="go" data-to="welcome">PROCEED</button>
@@ -464,54 +466,140 @@ async function noticeForm(v) {
   $("#fileIn").addEventListener("change", onPick);
 }
 
+/* Har Material type ke liye alag fields.
+   sem/uni: "req" = zaroori, "opt" = zaroori nahi (blank = General)
+   year: null = field hi nahi dikhega */
+const MFORM = {
+  "PYQ": {
+    intro: "पुराने Question Paper की साफ़, पूरी File भेजें। Exam का साल और Paper का नाम सही लिखें।",
+    subjReq: true, titleLab: "Paper का नाम", titlePh: "जैसे: Paper 2 — मध्यकालीन काव्य",
+    year: { lab: "Exam का साल", req: true }, sem: "req", uni: "req",
+    extra: { lab: "Exam कैसा था?", opts: ["Regular Exam", "Back Paper / Improvement"] },
+    notePh: "जैसे: 2 Pages धुंधले हैं"
+  },
+  "Book": {
+    intro: "Book का नाम और Author लिख दें, ताकि दूसरे Students आसानी से ढूँढ सकें।",
+    subjReq: true, titleLab: "Book का नाम", titlePh: "जैसे: हिंदी साहित्य का इतिहास",
+    year: { lab: "Edition / छपने का साल", req: false, na: "पता नहीं" }, sem: "opt", uni: "opt",
+    extra: { lab: "Author / Publisher", text: true, ph: "जैसे: आचार्य रामचंद्र शुक्ल" },
+    notePh: "जैसे: यह पूरी Book का Chapter 3 है"
+  },
+  "Notes": {
+    intro: "Notes की साफ़ Photo या PDF भेजें। Chapter या Topic का नाम ज़रूर लिखें।",
+    subjReq: true, titleLab: "Chapter / Topic का नाम", titlePh: "जैसे: Unit 3 — भक्तिकाल",
+    year: null, sem: "opt", uni: "opt",
+    extra: { lab: "Notes किस रूप में हैं?", opts: ["Handwritten (हाथ से लिखे)", "Typed / Printed"] },
+    notePh: "जैसे: Teacher के Notes हैं, या खुद बनाए हैं"
+  },
+  "Model Paper": {
+    intro: "Model Paper या Practice Paper भेजें।",
+    subjReq: true, titleLab: "Paper का नाम", titlePh: "जैसे: Paper 1 — आधुनिक काव्य (Model Set 2)",
+    year: { lab: "किस साल / Session का", req: false, na: "पता नहीं" }, sem: "req", uni: "req",
+    extra: null, notePh: "जैसे: किसने बनाया है, Answer के साथ है या नहीं"
+  },
+  "Syllabus": {
+    intro: "Syllabus की File भेजें। कौन सा Course और कौन सा Session है, यह बताएँ।",
+    subjReq: false, titleLab: "Syllabus किसका है?", titlePh: "जैसे: B.A. Hindi 3rd Sem Syllabus",
+    year: { lab: "Session / साल", req: false, na: "पता नहीं" }, sem: "req", uni: "req",
+    extra: null, notePh: "जैसे: New NEP Syllabus है"
+  },
+  "Other": {
+    intro: "बताइए कि यह क्या है, ताकि Admin सही जगह Post कर सकें।",
+    subjReq: false, titleLab: "File का नाम", titlePh: "जैसे: Assignment — Unit 2",
+    year: null, sem: "opt", uni: "opt", extra: null, notePh: "File के बारे में कोई भी बात"
+  }
+};
+
+function dynFields(type, unis, years) {
+  const c = MFORM[type];
+  if (!c) return `<div class="notice-box">ऊपर से चुनें कि आप क्या भेज रहे हैं — फिर उसी के हिसाब से सवाल दिखेंगे।</div>`;
+  const opt = t => t === "opt" ? ` <span class="muted" style="font-weight:400">(ज़रूरी नहीं)</span>` : "";
+  const yearBlock = c.year ? `
+    <label class="f"><span class="lab">${c.year.lab}${c.year.req ? "" : opt("opt")}</span>
+      <select class="inp" id="mYear">${c.year.req ? `<option value="">चुनें…</option>` : `<option value="NA">${c.year.na}</option>`}${years.map(y => `<option>${y}</option>`).join("")}</select>
+      <span class="errmsg" id="eYear">साल चुनें।</span></label>` : "";
+  let extraBlock = "";
+  if (c.extra) {
+    extraBlock = c.extra.text
+      ? `<label class="f"><span class="lab">${c.extra.lab}${opt("opt")}</span><input class="inp" id="mExtra" maxlength="80" placeholder="${esc(c.extra.ph)}"></label>`
+      : `<label class="f"><span class="lab">${c.extra.lab}${opt("opt")}</span><select class="inp" id="mExtra"><option value="">चुनें…</option>${c.extra.opts.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>`;
+  }
+  return `
+    <p class="muted">${c.intro}</p>
+    <label class="f"><span class="lab">Subject का नाम${c.subjReq ? "" : opt("opt")}</span>
+      <input class="inp" id="mSubject" list="subjList" maxlength="60" placeholder="जैसे: Hindi, Physics, Commerce">
+      <datalist id="subjList">${SUBJECTS.map(x => `<option value="${esc(x)}">`).join("")}</datalist>
+      <span class="errmsg" id="eSubject">Subject लिखें।</span></label>
+    <label class="f"><span class="lab">${c.titleLab}</span>
+      <input class="inp" id="mPaper" maxlength="100" placeholder="${esc(c.titlePh)}">
+      <span class="errmsg" id="ePaper">${c.titleLab} लिखें।</span></label>
+    ${yearBlock}
+    ${extraBlock}
+    <div class="f"><span class="lab">किस Class के लिए है? <span class="muted" style="font-weight:400">(एक या ज़्यादा)</span></span>
+      <div class="chips" id="classChips">${CLASSES.map(x => `<button type="button" class="chip" aria-pressed="false" data-act="chip" data-v="${esc(x)}">${esc(x)}</button>`).join("")}
+        <button type="button" class="chip" aria-pressed="false" data-act="chipOther">और…</button></div>
+      <input class="inp" id="mClassOther" maxlength="30" placeholder="Class का नाम लिखें" hidden style="margin-top:10px">
+      <span class="errmsg" id="eClass">कम से कम एक Class चुनें।</span></div>
+    <label class="f"><span class="lab">Semester या Year${opt(c.sem)}</span>
+      <select class="inp" id="mSem"><option value="">चुनें…</option>${SEMS.map(x => `<option>${esc(x)}</option>`).join("")}</select>
+      <span class="errmsg" id="eSem">एक Option चुनें।</span></label>
+    <label class="f"><span class="lab">किस University से जुड़ा है?${opt(c.uni)}</span>
+      <select class="inp" id="mUni">${uniOptions(unis, c.uni === "opt")}</select>
+      <span class="errmsg" id="eUni">एक Option चुनें।</span></label>
+    <label class="f" id="otherWrap" hidden><span class="lab">उसका नाम</span>
+      <input class="inp" id="mUniOther" maxlength="90" placeholder="University का नाम"><span class="errmsg" id="eUniOther">नाम लिखें।</span></label>
+    <label class="f"><span class="lab">Admin के लिए कोई बात <span class="muted" style="font-weight:400">(ज़रूरी नहीं)</span></span>
+      <textarea class="inp" id="mNote" maxlength="300" placeholder="${esc(c.notePh)}"></textarea></label>`;
+}
+function snapDyn() {
+  const o = {};
+  document.querySelectorAll("#dyn input[id], #dyn select[id], #dyn textarea[id]").forEach(e => { o[e.id] = e.value; });
+  o.__classes = [...document.querySelectorAll("#classChips .chip[data-v][aria-pressed=true]")].map(b => b.dataset.v);
+  const ob = document.querySelector("#classChips .chip[data-act=chipOther]");
+  o.__otherOn = !!(ob && ob.getAttribute("aria-pressed") === "true");
+  return o;
+}
+function restoreDyn(o, type) {
+  Object.keys(o).forEach(k => { if (k.startsWith("__")) return; const e = document.getElementById(k); if (e && o[k]) e.value = o[k]; });
+  document.querySelectorAll("#classChips .chip[data-v]").forEach(b => { if ((o.__classes || []).includes(b.dataset.v)) b.setAttribute("aria-pressed", "true"); });
+  if (o.__otherOn) { const ob = document.querySelector("#classChips .chip[data-act=chipOther]"); if (ob) ob.setAttribute("aria-pressed", "true"); const i = $("#mClassOther"); if (i) i.hidden = false; }
+  const c = MFORM[type], uni = $("#mUni");
+  if (c && uni) {
+    if (!uni.value && c.uni === "opt") uni.value = "__general";
+    uni.addEventListener("change", e => { $("#otherWrap").hidden = e.target.value !== "__other"; });
+    $("#otherWrap").hidden = uni.value !== "__other";
+  }
+}
+
 async function materialForm(v) {
   v.innerHTML = `<h2>Study Material भेजें</h2><p class="muted">एक Second…</p>`;
   const unis = await loadUnis();
   if (S.screen !== "material") return;
   const yr = new Date().getFullYear();
-  const years = [`<option value="">चुनें…</option>`];
-  for (let y = yr; y >= 2005; y--) years.push(`<option>${y}</option>`);
-  years.push(`<option value="NA">लागू नहीं (Book / Notes)</option>`);
+  const years = []; for (let y = yr; y >= 2005; y--) years.push(y);
   v.innerHTML = `
     <h2>Study Material भेजें</h2>
-    <p class="muted">जितनी सही जानकारी देंगे, उतना ही दूसरे Students को ढूँढना आसान होगा।</p>
+    <p class="muted">पहले बताइए कि क्या भेज रहे हैं — फिर उसी के हिसाब से सवाल आएँगे।</p>
     <label class="f"><span class="lab">यह क्या है?</span>
       <select class="inp" id="mType"><option value="">चुनें…</option>${MATERIAL_TYPES.map(t => `<option value="${esc(t[0])}">${esc(t[1])}</option>`).join("")}</select>
       <span class="errmsg" id="eType">एक Option चुनें।</span></label>
     <label class="f" id="typeOtherWrap" hidden><span class="lab">कैसा Material?</span>
       <input class="inp" id="mTypeOther" maxlength="40" placeholder="जैसे: Assignment"><span class="errmsg" id="eTypeOther">लिखें।</span></label>
-    <label class="f"><span class="lab">Subject का नाम</span>
-      <input class="inp" id="mSubject" list="subjList" maxlength="60" placeholder="जैसे: Hindi, Physics, Commerce">
-      <datalist id="subjList">${SUBJECTS.map(s => `<option value="${esc(s)}">`).join("")}</datalist>
-      <span class="errmsg" id="eSubject">Subject लिखें।</span></label>
-    <label class="f"><span class="lab">Paper का नाम</span>
-      <input class="inp" id="mPaper" maxlength="100" placeholder="जैसे: Paper 2 — मध्यकालीन काव्य">
-      <span class="errmsg" id="ePaper">Paper का नाम लिखें।</span></label>
-    <label class="f"><span class="lab">Paper का साल</span>
-      <select class="inp" id="mYear">${years.join("")}</select>
-      <span class="errmsg" id="eYear">साल चुनें।</span></label>
-    <div class="f"><span class="lab">किस Class के लिए है? <span class="muted" style="font-weight:400">(एक या ज़्यादा)</span></span>
-      <div class="chips" id="classChips">${CLASSES.map(c => `<button type="button" class="chip" aria-pressed="false" data-act="chip" data-v="${esc(c)}">${esc(c)}</button>`).join("")}
-        <button type="button" class="chip" aria-pressed="false" data-act="chipOther">और…</button></div>
-      <input class="inp" id="mClassOther" maxlength="30" placeholder="Class का नाम लिखें" hidden style="margin-top:10px">
-      <span class="errmsg" id="eClass">कम से कम एक Class चुनें।</span></div>
-    <label class="f"><span class="lab">Semester या Year</span>
-      <select class="inp" id="mSem"><option value="">चुनें…</option>${SEMS.map(s => `<option>${esc(s)}</option>`).join("")}</select>
-      <span class="errmsg" id="eSem">एक Option चुनें।</span></label>
-    <label class="f"><span class="lab">किस University से जुड़ा है?</span>
-      <select class="inp" id="mUni">${uniOptions(unis, true)}</select>
-      <span class="errmsg" id="eUni">एक Option चुनें।</span></label>
-    <label class="f" id="otherWrap" hidden><span class="lab">उसका नाम</span>
-      <input class="inp" id="mUniOther" maxlength="90" placeholder="University का नाम"><span class="errmsg" id="eUniOther">नाम लिखें।</span></label>
-    <label class="f"><span class="lab">Admin के लिए कोई बात <span class="muted" style="font-weight:400">(ज़रुरी नहीं)</span></span>
-      <textarea class="inp" id="mNote" maxlength="300" placeholder="जैसे: 2 Pages धुंधले हैं, या यह पूरी Book का Chapter 3 है"></textarea></label>
-    ${fileBox()}
-    ${creditBox()}
+    <div id="dyn">${dynFields("", unis, years)}</div>
+    <div id="tail" hidden>
+      ${fileBox()}
+      ${creditBox()}
+    </div>
     <input class="hp" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="prog" id="prog"><div class="bar"><i id="barI"></i></div><span class="small muted" id="progT"></span></div>
     <div class="actions"><div class="actions-in"><button class="btn" id="sendBtn" data-act="sendMaterial">Admin को भेजें</button></div></div>`;
-  $("#mType").addEventListener("change", e => { $("#typeOtherWrap").hidden = e.target.value !== "Other"; });
-  $("#mUni").addEventListener("change", e => { $("#otherWrap").hidden = e.target.value !== "__other"; });
+  $("#mType").addEventListener("change", e => {
+    const t = e.target.value, snap = snapDyn();
+    $("#typeOtherWrap").hidden = t !== "Other";
+    $("#dyn").innerHTML = dynFields(t, unis, years);
+    restoreDyn(snap, t);
+    $("#tail").hidden = !t;
+  });
   $("#fileIn").addEventListener("change", onPick);
 }
 
@@ -594,30 +682,37 @@ function sendNotice() {
   }, title);
 }
 function sendMaterial() {
-  const u = user(), uni = uniValue("mUni", "mUniOther");
   const type = $("#mType").value, typeOther = $("#mTypeOther").value.trim();
+  const c = MFORM[type];
+  if (!c) { errShow("eType", true); $("#mType").classList.add("err"); $("#mType").scrollIntoView({ block: "center" }); return; }
+  const u = user(), uni = uniValue("mUni", "mUniOther");
   const subject = $("#mSubject").value.trim(), paper = $("#mPaper").value.trim();
-  const year = $("#mYear").value, sem = $("#mSem").value;
+  const yEl = $("#mYear"), year = yEl ? yEl.value : "NA", sem = $("#mSem").value;
+  const eEl = $("#mExtra"), extra = eEl ? eEl.value.trim() : "";
   const classes = [...document.querySelectorAll("#classChips .chip[data-v][aria-pressed=true]")].map(b => b.dataset.v);
   const other = $("#mClassOther"); if (!other.hidden && other.value.trim()) classes.push(other.value.trim());
   let ok = true;
-  ok = need("mType", !!type, "eType") && ok;
+  errShow("eType", false);
   if (type === "Other") ok = need("mTypeOther", typeOther.length >= 2, "eTypeOther") && ok;
-  ok = need("mSubject", subject.length >= 2, "eSubject") && ok;
+  if (c.subjReq) ok = need("mSubject", subject.length >= 2, "eSubject") && ok;
   ok = need("mPaper", paper.length >= 3, "ePaper") && ok;
-  ok = need("mYear", !!year, "eYear") && ok;
+  if (c.year && c.year.req) ok = need("mYear", !!year, "eYear") && ok;
   errShow("eClass", !classes.length); ok = ok && classes.length > 0;
-  ok = need("mSem", !!sem, "eSem") && ok;
-  ok = need("mUni", !!uni.id, "eUni") && ok;
+  if (c.sem === "req") ok = need("mSem", !!sem, "eSem") && ok;
+  if (c.uni === "req") ok = need("mUni", !!uni.id && uni.id !== "__general", "eUni") && ok;
   if (uni.id === "__other") ok = need("mUniOther", uni.name.length >= 3, "eUniOther") && ok;
   const hasFile = !!(S.draft.file); errShow("eFile", !hasFile); ok = ok && hasFile;
   if (!ok) { const e = document.querySelector(".err, .errmsg.show"); if (e) e.scrollIntoView({ block: "center" }); return; }
   if ($("#fHp").value) return;
   const mtype = type === "Other" ? typeOther : type;
+  const uniFinal = uni.id ? uni : { id: "__general", name: "सभी / General" };
+  const userNote = $("#mNote").value.trim();
+  const note = [extra ? `${c.extra.lab} ${extra}` : "", userNote].filter(Boolean).join(" | ");
   submit("material", {
     kind: "material", name: u.name, college: u.college, credit: $("#fCredit").checked, ts: Date.now(),
-    mtype, subject, paper, year, classes, sem, uni_id: uni.id, uni_name: uni.name, note: $("#mNote").value.trim(),
-  }, `${mtype} · ${subject} · ${paper}`);
+    mtype, subject: subject || "सभी / General", paper, year: year || "NA", classes, sem: sem || "सभी / General",
+    uni_id: uniFinal.id, uni_name: uniFinal.name, extra, note,
+  }, `${mtype} · ${subject || paper}${subject ? " · " + paper : ""}`);
 }
 
 function done(v) {
