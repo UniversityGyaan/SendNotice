@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>University Gyaan — Notice और Study Material भेजें</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="description" content="University Gyaan के लिए Notice या Study Material भेजें। Telegram की ज़रूरत नहीं।">
+<meta name="theme-color" content="#0A1F6B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A1F6B; --navy-2:#162B80; --gold:#C9A227; --gold-soft:#F6EBC4;
+  --paper:#F5F7FC; --card:#FFFFFF; --ink:#12121A; --muted:#5B6275; --line:#D9DEEC;
+  --ok:#17794A; --ok-bg:#E3F4EA; --warn:#8A5A00; --warn-bg:#FFF1CC; --bad:#B3261E; --bad-bg:#FBE4E2;
+  --r:14px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hind",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
+.topbar-in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;min-height:40px}
+.mark{width:34px;height:34px;border-radius:9px;background:var(--gold);color:var(--navy);font-weight:700;display:grid;place-items:center;letter-spacing:.5px;flex:none}
+.brand{font-weight:600;font-size:18px;line-height:1.1}
+.brand small{display:block;font-weight:400;font-size:13px;opacity:.8}
+.back{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:15px}
+.back[hidden]{display:none}
+
+.wrap{max-width:560px;margin:0 auto;padding:22px 16px calc(120px + env(safe-area-inset-bottom))}
+h1{font-size:30px;line-height:1.2;margin:8px 0 14px;font-weight:700;color:var(--navy);letter-spacing:-.2px}
+h2{font-size:22px;line-height:1.25;margin:4px 0 6px;font-weight:700;color:var(--navy)}
+p{margin:0 0 12px}
+.lead{font-size:18px;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+
+.promises{list-style:none;margin:22px 0;padding:0;display:grid;gap:14px}
+.promises li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.promises svg{width:26px;height:26px;color:var(--ok);margin-top:2px}
+.promises b{display:block;font-weight:600}
+
+label.f{display:block;margin:0 0 18px}
+.lab{display:block;font-weight:600;margin-bottom:6px}
+.hint{display:block;font-size:15px;color:var(--muted);margin-top:5px}
+.inp,select.inp,textarea.inp{width:100%;min-height:50px;padding:10px 14px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;appearance:none;-webkit-appearance:none}
+select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%230A1F6B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
+textarea.inp{min-height:84px;resize:vertical}
+.inp:focus{border-color:var(--navy);outline:none;box-shadow:0 0 0 3px rgba(10,31,107,.18)}
+.inp.err{border-color:var(--bad)}
+.errmsg{color:var(--bad);font-size:15px;margin-top:5px;display:none}
+.err+.errmsg,.errmsg.show{display:block}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+.choices{display:grid;gap:12px;margin:20px 0}
+.choice{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;width:100%}
+.choice:hover,.choice:active{border-color:var(--navy)}
+.choice .ic{width:52px;height:52px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center}
+.choice .ic.gold{background:var(--gold);color:var(--navy)}
+.choice .ic svg{width:28px;height:28px}
+.choice b{display:block;font-size:19px;color:var(--navy)}
+.choice span{color:var(--muted);font-size:15px;line-height:1.35;display:block}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 15px;cursor:pointer;min-height:42px}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+.drop{display:block;border:2px dashed #AEB7D6;border-radius:var(--r);background:var(--card);padding:22px 16px;text-align:center;cursor:pointer}
+.drop:hover{border-color:var(--navy)}
+.drop svg{width:34px;height:34px;color:var(--navy)}
+.drop b{display:block;color:var(--navy);margin-top:6px}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+.drop:focus-within{outline:3px solid var(--gold);outline-offset:2px}
+.picked{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--ok-bg);color:#0E4D2F;font-size:15px;display:none}
+.picked.show{display:block}
+.picked.bad{background:var(--bad-bg);color:var(--bad)}
+
+.check{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;margin:0 0 20px;cursor:pointer}
+.check input{width:22px;height:22px;margin:3px 0 0;accent-color:var(--navy)}
+
+.actions{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(#F5F7FC00,#F5F7FC 28%);padding:22px 16px calc(14px + env(safe-area-inset-bottom));z-index:15}
+.actions-in{max-width:560px;margin:0 auto;display:grid;gap:8px}
+.btn{min-height:52px;border-radius:12px;border:0;background:var(--navy);color:#fff;font-weight:600;font-size:18px;cursor:pointer;padding:0 20px;width:100%}
+.btn:hover{background:var(--navy-2)}
+.btn[disabled]{background:#9AA3C4;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+.btn.inline{width:auto;min-height:44px;font-size:16px}
+
+/* 3D Button Style for PROCEED/Start */
+.btn-3d {
+  background: linear-gradient(145deg, var(--gold), #a5841e);
+  color: var(--navy);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #7e6414, 0 10px 15px rgba(0,0,0,0.15);
+  transition: all 0.15s ease;
+  width: 100%;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn-3d:active {
+  transform: translateY(6px);
+  box-shadow: 0 0px 0 #7e6414, 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.bar{height:10px;background:#DDE2F1;border-radius:99px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;width:0;background:var(--navy);transition:width .2s}
+.prog{display:none;margin:4px 0 18px}
+.prog.show{display:block}
+
+.list{display:grid;gap:10px;margin:10px 0 0;padding:0;list-style:none}
+.item{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.item.new{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.item h3{margin:0 0 4px;font-size:17px;line-height:1.3;font-weight:600}
+.badge{display:inline-block;font-size:14px;font-weight:600;border-radius:999px;padding:2px 11px}
+.b-sent,.b-pending{background:var(--warn-bg);color:var(--warn)}
+.b-approved{background:var(--ok-bg);color:var(--ok)}
+.b-rejected,.b-failed{background:var(--bad-bg);color:var(--bad)}
+.item .msg{font-size:15px;margin:6px 0 0;color:var(--ink)}
+.item .dismiss{background:none;border:0;color:var(--navy);text-decoration:underline;padding:6px 0 0;cursor:pointer;font-size:15px}
+.sect{display:flex;align-items:baseline;justify-content:space-between;margin-top:30px}
+.sect h2{margin:0;font-size:20px}
+.link{background:none;border:0;color:var(--navy);text-decoration:underline;cursor:pointer;padding:6px 0;font-size:16px}
+
+.slip{position:relative;margin:18px 0 22px;background:var(--card);border:2px dashed var(--navy);border-radius:var(--r);padding:26px 20px 22px;text-align:center}
+.slip::before,.slip::after{content:"";position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--paper);border:2px dashed var(--navy)}
+.slip::before{left:-13px;transform:translateY(-50%)}
+.slip::after{right:-13px;transform:translateY(-50%)}
+.slip .code{font-size:30px;font-weight:700;letter-spacing:3px;color:var(--navy);margin:6px 0 2px;word-break:break-all}
+.stamp{position:absolute;right:14px;top:-18px;transform:rotate(8deg);width:78px;height:78px;border-radius:50%;border:3px solid var(--gold);color:#8E7014;background:var(--gold-soft);display:grid;place-items:center;text-align:center;font-weight:700;font-size:15px;line-height:1.1}
+@media (prefers-reduced-motion:no-preference){
+  .stamp{animation:stamp .45s cubic-bezier(.2,1.4,.4,1) .15s both}
+  @keyframes stamp{from{transform:rotate(-14deg) scale(1.9);opacity:0}to{transform:rotate(8deg) scale(1);opacity:1}}
+}
+
+.toast{position:fixed;left:16px;right:16px;bottom:calc(92px + env(safe-area-inset-bottom));max-width:528px;margin:0 auto;background:#1B1B24;color:#fff;border-radius:12px;padding:12px 16px;z-index:40;display:none;font-size:16px}
+.toast.show{display:block}
+.toast.bad{background:var(--bad)}
+.notice-box{background:var(--gold-soft);border-radius:12px;padding:12px 14px;font-size:15px;margin:0 0 18px}
+
+.landing-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+}
+.landing-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.landing-subtitle {
+  font-size: 24px;
+  color: var(--muted);
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="mark" aria-hidden="true">UG</div>
+    <div class="brand">University Gyaan<small>Student का योगदान</small></div>
+    <button class="back" id="backBtn" type="button" hidden>पीछे</button>
+  </div>
+</header>
+
+<main class="wrap" id="view" aria-live="polite"></main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===================== SETTINGS (sirf yahi 4 cheezein badalni hain) ===================== */
+const CONFIG = {
+  FIREBASE_DB: "https://university-notice-bot-default-rtdb.asia-southeast1.firebasedatabase.app",
+  CLOUDINARY_CLOUD: "ca5gt4kg",     // Cloudinary dashboard par dikhta hai
+  CLOUDINARY_PRESET: "ug_contrib",         // Unsigned upload preset ka naam
+  MAX_PDF_MB: 9,                           // Cloudinary free plan me 10 MB tak
+};
+/* ======================================================================================= */
+
+const DB = CONFIG.FIREBASE_DB.replace(/\/+$/, "");
+const FINAL = ["approved", "rejected", "failed"];
+const MATERIAL_TYPES = [
+  ["PYQ", "PYQ — पिछले सालों के Question Paper"],
+  ["Book", "Book"],
+  ["Notes", "Notes"],
+  ["Model Paper", "Model Paper"],
+  ["Syllabus", "Syllabus"],
+  ["Other", "कुछ और"],
+];
+const CLASSES = ["Class 11", "Class 12", "B.A.", "B.Sc.", "B.Com.", "BBA", "BCA", "B.Ed.", "LL.B.", "M.A.", "M.Sc.", "M.Com."];
+const SEMS = ["1st Sem","2nd Sem","3rd Sem","4th Sem","5th Sem","6th Sem","7th Sem","8th Sem","1st Year","2nd Year","3rd Year","4th Year","सभी / General"];
+const SUBJECTS = ["Hindi","English","Sanskrit","Urdu","Physics","Chemistry","Mathematics","Botany","Zoology","Commerce","Accountancy","Business Law","Economics","Political Science","History","Sociology","Geography","Philosophy","Psychology","Computer Science","Education"];
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+
+const S = { screen: "landing", kind: null, unis: null, draft: null, busy: false, lastCode: "" };
+const user = () => store.get("ug_user", null);
+const subs = () => store.get("ug_subs", []);
+
+/* ---------- icons ---------- */
+const I = {
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>',
+  notice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg>',
+  up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>',
+};
+
+/* ---------- helpers ---------- */
+function toast(msg, bad) {
+  const t = $("#toast"); t.textContent = msg; t.className = "toast show" + (bad ? " bad" : "");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.className = "toast", 4500);
+}
+function newId() {
+  const a = new Uint8Array(20); crypto.getRandomValues(a);
+  return Array.from(a, b => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join("");
+}
+function fmtSize(b) { return b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB"; }
+function go(screen, kind) {
+  S.screen = screen; if (kind !== undefined) S.kind = kind;
+  if (screen === "notice" || screen === "material") S.draft = { file: null, classes: [] };
+  render(); window.scrollTo(0, 0);
+}
+async function loadUnis() {
+  if (S.unis) return S.unis;
+  try {
+    const r = await fetch(`${DB}/contrib/public/universities.json`, { cache: "no-store" });
+    const v = r.ok ? await r.json() : null;
+    S.unis = Array.isArray(v) ? v.filter(x => x && x.id && x.n) : (v ? Object.values(v) : []);
+  } catch { S.unis = []; }
+  return S.unis;
+}
+function uniOptions(unis, withGeneral) {
+  const col = unis.filter(u => u.c === "college").sort((a, b) => a.n.localeCompare(b.n));
+  const uni = unis.filter(u => u.c !== "college").sort((a, b) => a.n.localeCompare(b.n));
+  const o = n => `<option value="${esc(n.id)}">${esc(n.n)}</option>`;
+  return `<option value="">चुनें…</option>` +
+    (withGeneral ? `<option value="__general">सभी / General</option>` : "") +
+    (uni.length ? `<optgroup label="Universities">${uni.map(o).join("")}</optgroup>` : "") +
+    (col.length ? `<optgroup label="Colleges">${col.map(o).join("")}</optgroup>` : "") +
+    `<option value="__other">Other (List में नहीं है)</option>`;
+}
+
+/* ---------- render ---------- */
+function render() {
+  const v = $("#view"), back = $("#backBtn");
+  back.hidden = ["landing", "welcome", "home"].includes(S.screen);
+  if (S.screen === "landing") return landing(v);
+  if (S.screen === "welcome") return welcome(v);
+  if (S.screen === "details") return details(v);
+  if (S.screen === "home") return home(v);
+  if (S.screen === "notice") return noticeForm(v);
+  if (S.screen === "material") return materialForm(v);
+  if (S.screen === "done") return done(v);
+}
+$("#backBtn").addEventListener("click", () => {
+  if (S.busy) return;
+  go(user() ? "home" : "welcome");
+});
+
+function landing(v) {
+  v.innerHTML = `
+    <div class="landing-center">
+      <div class="landing-title">University Gyaan</div>
+      <div class="landing-subtitle">Student का योगदान</div>
+      <button class="btn-3d" data-act="go" data-to="welcome">PROCEED</button>
+    </div>`;
+}
+
+function welcome(v) {
+  v.innerHTML = `
+    <h1>एक File भेजें, किसी और का Semester आसान हो जाएगा।</h1>
+    <p class="lead">आपके College या University का कोई Notice, या Study Material (PYQ, Book, Notes) — यहीं से सीधा Admin तक पहुँचता है।</p>
+    <ul class="promises">
+      <li>${I.check}<div><b>Telegram की ज़रूरत नहीं</b>सिर्फ यह Page। कोई Account या Password नहीं।</div></li>
+      <li>${I.check}<div><b>सिर्फ नाम और College पूछते हैं</b>Phone number, Email या Location कभी नहीं। आपका नाम सिर्फ Admin देखता है — Public में तभी, जब आप खुद कहें।</div></li>
+      <li>${I.check}<div><b>हर File Admin देखकर ही Post होती है</b>Approve या Reject — दोनों का जवाब आपको इसी Page पर मिलता है।</div></li>
+    </ul>
+    <div class="actions"><div class="actions-in"><button class="btn-3d" style="font-size:18px; padding:12px 20px" data-act="start">START</button></div></div>`;
+}
+
+function details(v) {
+  const u = user() || {};
+  v.innerHTML = `
+    <h2>पहले थोड़ी जानकारी</h2>
+    <p class="muted">असली नाम लिखें। इससे Admin को File verify करने में मदद मिलती है। यह जानकारी सिर्फ Admin को दिखती है और किसी और को नहीं दी जाती।</p>
+    <label class="f"><span class="lab">आपका नाम</span>
+      <input class="inp" id="dName" maxlength="60" autocomplete="name" value="${esc(u.name || "")}" placeholder="जैसे: Rahul Sharma">
+      <span class="errmsg" id="eName">अपना पूरा नाम लिखें।</span></label>
+    <label class="f"><span class="lab">आपका College या University</span>
+      <input class="inp" id="dCollege" maxlength="90" autocomplete="organization" value="${esc(u.college || "")}" placeholder="जैसे: Meerut College, Meerut">
+      <span class="errmsg" id="eCollege">College का नाम लिखें।</span></label>
+    <div class="actions"><div class="actions-in"><button class="btn" data-act="saveDetails">आगे बढ़ें</button></div></div>`;
+}
+
+function home(v) {
+  const u = user(); if (!u) return go("details");
+  const list = subs();
+  const unseen = list.filter(s => FINAL.includes(s.state) && !s.seen).length;
+  v.innerHTML = `
+    <h2>नमस्ते, ${esc(u.name.split(" ")[0])}</h2>
+    <p class="muted">${esc(u.college)} · <button class="link" data-act="editDetails">बदलें</button></p>
+    ${unseen ? `<div class="notice-box"><b>आपकी ${unseen === 1 ? "एक File" : unseen + " Files"} का जवाब आ गया है।</b> नीचे देखें।</div>` : ""}
+    <p class="lead" style="margin-top:14px">आप क्या भेजना चाहते हैं?</p>
+    <div class="choices">
+      <button class="choice" data-act="go" data-to="notice"><span class="ic">${I.notice}</span><div><b>Notice</b><span>किसी College या University का नया Notice (PDF या Photo)</span></div></button>
+      <button class="choice" data-act="go" data-to="material"><span class="ic gold">${I.book}</span><div><b>Study Material</b><span>PYQ, Book, Notes या Model Paper</span></div></button>
+    </div>
+    <div class="sect"><h2>आपकी भेजी हुई Files</h2></div>
+    ${list.length ? `<ul class="list">${list.map(subItem).join("")}</ul>` : `<p class="muted">अभी कुछ नहीं भेजा। ऊपर से पहली File भेजें।</p>`}`;
+  refreshStatuses();
+}
+const STATE_TEXT = { sent: "Admin तक पहुँच रही है", pending: "Admin देख रहे हैं", approved: "Post हो गई", rejected: "Approve नहीं हुई", failed: "Upload नहीं हो पाई" };
+function subItem(s) {
+  const fresh = FINAL.includes(s.state) && !s.seen;
+  return `<li class="item${fresh ? " new" : ""}">
+    <h3>${esc(s.title)}</h3>
+    <span class="badge b-${esc(s.state)}">${esc(STATE_TEXT[s.state] || s.state)}</span>
+    <span class="muted small"> · ${s.kind === "notice" ? "Notice" : "Study Material"}</span>
+    ${s.msg && FINAL.includes(s.state) ? `<p class="msg">${esc(s.msg)}</p>` : ""}
+    ${fresh ? `<button class="dismiss" data-act="seen" data-id="${esc(s.id)}">ठीक है, देख लिया</button>` : ""}
+  </li>`;
+}
+
+/* ---------- file picker + compression ---------- */
+function fileBox() {
+  return `<div class="f"><span class="lab">File चुनें</span>
+    <label class="drop" for="fileIn">${I.up}<b>PDF या Photo (JPG / PNG) चुनें</b>
+      <span class="muted small">बड़ी Photo अपने आप छोटी हो जाती है, साफ़ पढ़ने लायक रहती है।</span>
+      <input type="file" id="fileIn" accept="application/pdf,image/jpeg,image/png,image/webp"></label>
+    <div class="picked" id="picked" role="status"></div>
+    <span class="errmsg" id="eFile">पहले File चुनें।</span></div>`;
+}
+async function toBitmap(file) {
+  if (window.createImageBitmap) {
+    try { return await createImageBitmap(file, { imageOrientation: "from-image" }); } catch {}
+  }
+  return await new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => { res(img); URL.revokeObjectURL(url); };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("image")); };
+    img.src = url;
+  });
+}
+const toBlob = (cv, q) => new Promise(r => cv.toBlob(r, "image/jpeg", q));
+async function compressImage(file) {
+  const bmp = await toBitmap(file);
+  const W = bmp.width, H = bmp.height, LIMIT = 1.6 * 1048576;
+  let scale = Math.min(1, 2400 / Math.max(W, H));
+  if (scale === 1 && file.type === "image/jpeg" && file.size <= 0.9 * 1048576) return file;
+  let best = null;
+  for (let pass = 0; pass < 4; pass++) {
+    const cv = document.createElement("canvas");
+    cv.width = Math.round(W * scale); cv.height = Math.round(H * scale);
+    const c = cv.getContext("2d"); c.fillStyle = "#fff"; c.fillRect(0, 0, cv.width, cv.height);
+    c.imageSmoothingQuality = "high"; c.drawImage(bmp, 0, 0, cv.width, cv.height);
+    let q = 0.86, blob = await toBlob(cv, q);
+    while (blob && blob.size > LIMIT && q > 0.62) { q -= 0.06; blob = await toBlob(cv, q); }
+    best = blob || best;
+    if (blob && blob.size <= LIMIT) break;
+    scale *= 0.85;
+  }
+  if (!best) throw new Error("compress");
+  if (file.type === "image/jpeg" && best.size >= file.size) return file;
+  return best;
+}
+async function onPick(ev) {
+  const f = ev.target.files && ev.target.files[0]; const box = $("#picked");
+  S.draft.file = null; box.className = "picked show"; box.textContent = "File देख रहे हैं…";
+  if (!f) { box.className = "picked"; return; }
+  const isPdf = f.type === "application/pdf" || /\.pdf$/i.test(f.name);
+  const isImg = /^image\/(jpeg|png|webp)$/.test(f.type);
+  try {
+    if (isPdf) {
+      if (f.size > CONFIG.MAX_PDF_MB * 1048576) {
+        box.className = "picked show bad";
+        box.textContent = `यह PDF ${fmtSize(f.size)} की है। ${CONFIG.MAX_PDF_MB} MB तक की PDF चलती है। PDF को छोटा करें, या Pages की Photo (JPG) भेजें — Photo अपने आप छोटी हो जाती है।`;
+        return;
+      }
+      S.draft.file = { blob: f, name: f.name.replace(/[^\w.\- ]+/g, "_").slice(0, 80) || "file.pdf", before: f.size, after: f.size };
+      box.textContent = `✔ ${f.name} · ${fmtSize(f.size)}`;
+    } else if (isImg) {
+      const out = await compressImage(f);
+      const nm = (f.name.replace(/\.[^.]+$/, "").replace(/[^\w\- ]+/g, "_").slice(0, 60) || "photo") + ".jpg";
+      S.draft.file = { blob: out, name: nm, before: f.size, after: out.size };
+      box.textContent = out.size < f.size
+        ? `✔ ${f.name} · ${fmtSize(f.size)} से ${fmtSize(out.size)} हो गई (Quality बनी रही)`
+        : `✔ ${f.name} · ${fmtSize(f.size)}`;
+    } else {
+      box.className = "picked show bad";
+      box.textContent = "सिर्फ PDF, JPG या PNG चलता है। (iPhone की HEIC Photo को JPG में बदलकर भेजें।)";
+    }
+  } catch {
+    box.className = "picked show bad";
+    box.textContent = "यह File खुल नहीं पाई। दूसरी File Try करें।";
+  }
+}
+
+/* ---------- forms ---------- */
+function creditBox() {
+  return `<label class="check"><input type="checkbox" id="fCredit"><span>Post में मेरा नाम भी लिखें <span class="hint" style="display:inline">(ज़रूरी नहीं — ना चुनें तो नाम सिर्फ Admin को दिखेगा)</span></span></label>`;
+}
+function errShow(id, on, msg) { const e = $("#" + id); if (!e) return; if (msg) e.textContent = msg; e.classList.toggle("show", !!on); }
+function fieldErr(input, on) { input.classList.toggle("err", !!on); }
+
+async function noticeForm(v) {
+  v.innerHTML = `<h2>Notice भेजें</h2><p class="muted">चुनना आसान है: कौन सी University या College, Notice का नाम, और File।</p><p class="muted">एक Second…</p>`;
+  const unis = await loadUnis();
+  if (S.screen !== "notice") return;
+  v.innerHTML = `
+    <h2>Notice भेजें</h2>
+    <p class="muted">Notice किस College या University का है?</p>
+    <label class="f"><span class="lab">College / University</span>
+      <select class="inp" id="fUni">${uniOptions(unis, false)}</select>
+      <span class="errmsg" id="eUni">एक Option चुनें।</span></label>
+    <label class="f" id="otherWrap" hidden><span class="lab">उसका पूरा नाम</span>
+      <input class="inp" id="fUniOther" maxlength="90" placeholder="जैसे: Raj Rishi College, Alwar">
+      <span class="errmsg" id="eUniOther">नाम लिखें।</span></label>
+    <label class="f"><span class="lab">Notice का नाम</span>
+      <input class="inp" id="fTitle" maxlength="150" placeholder="जैसे: B.A. 3rd Sem Exam form की अंतिम तिथि बढ़ी">
+      <span class="hint">Notice का सारांश एक Line में।</span>
+      <span class="errmsg" id="eTitle">Notice का नाम लिखें (कम से कम 8 अक्षर)।</span></label>
+    <label class="f"><span class="lab">Notice की तारीख़ <span class="muted" style="font-weight:400">(पता हो तो)</span></span>
+      <input class="inp" type="date" id="fDate"></label>
+    ${fileBox()}
+    ${creditBox()}
+    <input class="hp" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="prog" id="prog"><div class="bar"><i id="barI"></i></div><span class="small muted" id="progT"></span></div>
+    <div class="actions"><div class="actions-in"><button class="btn" id="sendBtn" data-act="sendNotice">Admin को भेजें</button></div></div>`;
+  $("#fDate").max = new Date().toISOString().slice(0, 10);
+  $("#fUni").addEventListener("change", e => { $("#otherWrap").hidden = e.target.value !== "__other"; });
+  $("#fileIn").addEventListener("change", onPick);
+}
+
+async function materialForm(v) {
+  v.innerHTML = `<h2>Study Material भेजें</h2><p class="muted">एक Second…</p>`;
+  const unis = await loadUnis();
+  if (S.screen !== "material") return;
+  const yr = new Date().getFullYear();
+  const years = [`<option value="">चुनें…</option>`];
+  for (let y = yr; y >= 2005; y--) years.push(`<option>${y}</option>`);
+  years.push(`<option value="NA">लागू नहीं (Book / Notes)</option>`);
+  v.innerHTML = `
+    <h2>Study Material भेजें</h2>
+    <p class="muted">जितनी सही जानकारी देंगे, उतना ही दूसरे Students को ढूँढना आसान होगा।</p>
+    <label class="f"><span class="lab">यह क्या है?</span>
+      <select class="inp" id="mType"><option value="">चुनें…</option>${MATERIAL_TYPES.map(t => `<option value="${esc(t[0])}">${esc(t[1])}</option>`).join("")}</select>
+      <span class="errmsg" id="eType">एक Option चुनें।</span></label>
+    <label class="f" id="typeOtherWrap" hidden><span class="lab">कैसा Material?</span>
+      <input class="inp" id="mTypeOther" maxlength="40" placeholder="जैसे: Assignment"><span class="errmsg" id="eTypeOther">लिखें।</span></label>
+    <label class="f"><span class="lab">Subject का नाम</span>
+      <input class="inp" id="mSubject" list="subjList" maxlength="60" placeholder="जैसे: Hindi, Physics, Commerce">
+      <datalist id="subjList">${SUBJECTS.map(s => `<option value="${esc(s)}">`).join("")}</datalist>
+      <span class="errmsg" id="eSubject">Subject लिखें।</span></label>
+    <label class="f"><span class="lab">Paper का नाम</span>
+      <input class="inp" id="mPaper" maxlength="100" placeholder="जैसे: Paper 2 — मध्यकालीन काव्य">
+      <span class="errmsg" id="ePaper">Paper का नाम लिखें।</span></label>
+    <label class="f"><span class="lab">Paper का साल</span>
+      <select class="inp" id="mYear">${years.join("")}</select>
+      <span class="errmsg" id="eYear">साल चुनें।</span></label>
+    <div class="f"><span class="lab">किस Class के लिए है? <span class="muted" style="font-weight:400">(एक या ज़्यादा)</span></span>
+      <div class="chips" id="classChips">${CLASSES.map(c => `<button type="button" class="chip" aria-pressed="false" data-act="chip" data-v="${esc(c)}">${esc(c)}</button>`).join("")}
+        <button type="button" class="chip" aria-pressed="false" data-act="chipOther">और…</button></div>
+      <input class="inp" id="mClassOther" maxlength="30" placeholder="Class का नाम लिखें" hidden style="margin-top:10px">
+      <span class="errmsg" id="eClass">कम से कम एक Class चुनें।</span></div>
+    <label class="f"><span class="lab">Semester या Year</span>
+      <select class="inp" id="mSem"><option value="">चुनें…</option>${SEMS.map(s => `<option>${esc(s)}</option>`).join("")}</select>
+      <span class="errmsg" id="eSem">एक Option चुनें।</span></label>
+    <label class="f"><span class="lab">किस University से जुड़ा है?</span>
+      <select class="inp" id="mUni">${uniOptions(unis, true)}</select>
+      <span class="errmsg" id="eUni">एक Option चुनें।</span></label>
+    <label class="f" id="otherWrap" hidden><span class="lab">उसका नाम</span>
+      <input class="inp" id="mUniOther" maxlength="90" placeholder="University का नाम"><span class="errmsg" id="eUniOther">नाम लिखें।</span></label>
+    <label class="f"><span class="lab">Admin के लिए कोई बात <span class="muted" style="font-weight:400">(ज़रुरी नहीं)</span></span>
+      <textarea class="inp" id="mNote" maxlength="300" placeholder="जैसे: 2 Pages धुंधले हैं, या यह पूरी Book का Chapter 3 है"></textarea></label>
+    ${fileBox()}
+    ${creditBox()}
+    <input class="hp" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="prog" id="prog"><div class="bar"><i id="barI"></i></div><span class="small muted" id="progT"></span></div>
+    <div class="actions"><div class="actions-in"><button class="btn" id="sendBtn" data-act="sendMaterial">Admin को भेजें</button></div></div>`;
+  $("#mType").addEventListener("change", e => { $("#typeOtherWrap").hidden = e.target.value !== "Other"; });
+  $("#mUni").addEventListener("change", e => { $("#otherWrap").hidden = e.target.value !== "__other"; });
+  $("#fileIn").addEventListener("change", onPick);
+}
+
+/* ---------- submit ---------- */
+function setProg(p, t) { $("#prog").classList.add("show"); $("#barI").style.width = p + "\%"; $("#progT").textContent = t; }
+function uploadToCloudinary(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const fd = new FormData();
+    fd.append("file", file.blob, file.name);
+    fd.append("upload_preset", CONFIG.CLOUDINARY_PRESET);
+    fd.append("folder", "ug_contrib");
+    const x = new XMLHttpRequest();
+    x.open("POST", `https://api.cloudinary.com/v1_1/${encodeURIComponent(CONFIG.CLOUDINARY_CLOUD)}/auto/upload`);
+    x.upload.onprogress = e => { if (e.lengthComputable) onProgress(e.loaded / e.total); };
+    x.onload = () => {
+      try {
+        const j = JSON.parse(x.responseText);
+        if (x.status >= 200 && x.status < 300 && j.secure_url) return resolve(j);
+        reject(new Error((j.error && j.error.message) || "upload"));
+      } catch { reject(new Error("upload")); }
+    };
+    x.onerror = () => reject(new Error("network"));
+    x.timeout = 180000; x.ontimeout = () => reject(new Error("network"));
+    x.send(fd);
+  });
+}
+function throttleOk() {
+  const t = store.get("ug_sent", []).filter(x => Date.now() - x < 86400000);
+  if (t.length && Date.now() - t[t.length - 1] < 15000) { toast("थोड़ा रुक कर दोबारा भेजें।", true); return false; }
+  if (t.length >= 12) { toast("आज के लिए Limit पूरी हो गई। कल फिर भेजें।", true); return false; }
+  return true;
+}
+async function submit(kind, record, title) {
+  if (S.busy) return;
+  if (CONFIG.CLOUDINARY_CLOUD === "YOUR_CLOUD_NAME") { toast("यह Page अभी Set नहीं हुआ (Admin को बताएँ)।", true); return; }
+  if (!throttleOk()) return;
+  S.busy = true; const btn = $("#sendBtn"); btn.disabled = true; btn.textContent = "भेज रहे हैं…";
+  try {
+    const d = S.draft;
+    if (!d.uploaded || d.uploadedFor !== d.file.blob) {
+      setProg(3, "File Upload हो रही है…");
+      const j = await uploadToCloudinary(d.file, p => setProg(3 + Math.round(p * 85), `File Upload हो रही है… ${Math.round(p * 100)}%`));
+      d.uploaded = j; d.uploadedFor = d.file.blob;
+    }
+    setProg(92, "Admin को भेज रहे हैं…");
+    const id = newId();
+    record.file = { url: d.uploaded.secure_url, name: d.file.name, size: d.file.after };
+    const r = await fetch(`${DB}/contrib/inbox/${id}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(record) });
+    if (!r.ok) throw new Error("db");
+    setProg(100, "हो गया");
+    const list = subs(); list.unshift({ id, kind, title, state: "sent", msg: "", seen: true, ts: Date.now() });
+    store.set("ug_subs", list.slice(0, 30));
+    const sent = store.get("ug_sent", []).filter(x => Date.now() - x < 86400000); sent.push(Date.now()); store.set("ug_sent", sent);
+    S.lastCode = id.slice(0, 6).toUpperCase(); S.kind = kind;
+    S.busy = false; go("done");
+  } catch (e) {
+    S.busy = false; btn.disabled = false; btn.textContent = "दोबारा भेजें";
+    toast(e.message === "network" ? "Internet Check करें, फिर दोबारा भेजें।" : "भेजने में दिक्कत आई। दोबारा Try करें।", true);
+  }
+}
+function need(id, cond, errId) { const el = $("#" + id); const bad = !cond; if (el) fieldErr(el, bad); errShow(errId, bad); return !bad; }
+function uniValue(selId, otherId) {
+  const sel = $("#" + selId), v = sel.value;
+  if (v === "__other") return { id: "__other", name: $("#" + otherId).value.trim() };
+  if (v === "__general") return { id: "__general", name: "सभी / General" };
+  const o = sel.options[sel.selectedIndex]; return { id: v, name: o ? o.textContent : "" };
+}
+function sendNotice() {
+  const u = user(), uni = uniValue("fUni", "fUniOther");
+  const title = $("#fTitle").value.trim(); let ok = true;
+  ok = need("fUni", !!uni.id, "eUni") && ok;
+  if (uni.id === "__other") ok = need("fUniOther", uni.name.length >= 3, "eUniOther") && ok;
+  ok = need("fTitle", title.length >= 8, "eTitle") && ok;
+  const hasFile = !!(S.draft.file); errShow("eFile", !hasFile); ok = ok && hasFile;
+  if (!ok) { const e = document.querySelector(".err, .errmsg.show"); if (e) e.scrollIntoView({ block: "center" }); return; }
+  if ($("#fHp").value) return;
+  submit("notice", {
+    kind: "notice", name: u.name, college: u.college, credit: $("#fCredit").checked, ts: Date.now(),
+    uni_id: uni.id, uni_name: uni.name, title, notice_date: $("#fDate").value || "",
+  }, title);
+}
+function sendMaterial() {
+  const u = user(), uni = uniValue("mUni", "mUniOther");
+  const type = $("#mType").value, typeOther = $("#mTypeOther").value.trim();
+  const subject = $("#mSubject").value.trim(), paper = $("#mPaper").value.trim();
+  const year = $("#mYear").value, sem = $("#mSem").value;
+  const classes = [...document.querySelectorAll("#classChips .chip[data-v][aria-pressed=true]")].map(b => b.dataset.v);
+  const other = $("#mClassOther"); if (!other.hidden && other.value.trim()) classes.push(other.value.trim());
+  let ok = true;
+  ok = need("mType", !!type, "eType") && ok;
+  if (type === "Other") ok = need("mTypeOther", typeOther.length >= 2, "eTypeOther") && ok;
+  ok = need("mSubject", subject.length >= 2, "eSubject") && ok;
+  ok = need("mPaper", paper.length >= 3, "ePaper") && ok;
+  ok = need("mYear", !!year, "eYear") && ok;
+  errShow("eClass", !classes.length); ok = ok && classes.length > 0;
+  ok = need("mSem", !!sem, "eSem") && ok;
+  ok = need("mUni", !!uni.id, "eUni") && ok;
+  if (uni.id === "__other") ok = need("mUniOther", uni.name.length >= 3, "eUniOther") && ok;
+  const hasFile = !!(S.draft.file); errShow("eFile", !hasFile); ok = ok && hasFile;
+  if (!ok) { const e = document.querySelector(".err, .errmsg.show"); if (e) e.scrollIntoView({ block: "center" }); return; }
+  if ($("#fHp").value) return;
+  const mtype = type === "Other" ? typeOther : type;
+  submit("material", {
+    kind: "material", name: u.name, college: u.college, credit: $("#fCredit").checked, ts: Date.now(),
+    mtype, subject, paper, year, classes, sem, uni_id: uni.id, uni_name: uni.name, note: $("#mNote").value.trim(),
+  }, `${mtype} · ${subject} · ${paper}`);
+}
+
+function done(v) {
+  v.innerHTML = `
+    <h2>धन्यवाद, File मिल गई</h2>
+    <p class="lead">Admin इसे देखेंगे। जवाब इसी Page पर दिखेगा — Telegram की ज़रूरत नहीं।</p>
+    <div class="slip"><div class="stamp">मिल<br>गया</div>
+      <span class="muted small">आपका Reference Code</span>
+      <div class="code">${esc(S.lastCode)}</div>
+      <span class="muted small">ज़रूरी नहीं, बस याद के लिए</span></div>
+    <p class="small muted">कुछ घंटे बाद इस Page को दोबारा खोलिए — Approve या Reject होने पर यहीं बताएंगे।</p>
+    <div class="actions"><div class="actions-in">
+      <button class="btn" data-act="go" data-to="${S.kind === "notice" ? "notice" : "material"}">एक और ${S.kind === "notice" ? "Notice" : "Material"} भेजें</button>
+      <button class="btn ghost" data-act="home">मेरे Page पर जाएँ</button></div></div>`;
+}
+
+/* ---------- status polling ---------- */
+let polling = false;
+async function refreshStatuses() {
+  if (polling) return; polling = true;
+  try {
+    const list = subs(); let changed = false;
+    await Promise.all(list.filter(s => !FINAL.includes(s.state)).slice(0, 15).map(async s => {
+      try {
+        const r = await fetch(`${DB}/contrib/status/${s.id}.json`, { cache: "no-store" });
+        if (!r.ok) return; const v = await r.json();
+        if (v && v.state && (v.state !== s.state || (v.msg || "") !== (s.msg || ""))) {
+          s.state = v.state; s.msg = v.msg || ""; if (FINAL.includes(v.state)) s.seen = false; changed = true;
+        }
+      } catch {}
+    }));
+    if (changed) { store.set("ug_subs", list); if (S.screen === "home" && !S.busy) { render(); } }
+  } finally { polling = false; }
+}
+setInterval(() => { if (!document.hidden && S.screen === "home") refreshStatuses(); }, 15000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && S.screen === "home") refreshStatuses(); });
+
+/* ---------- events ---------- */
+document.addEventListener("click", ev => {
+  const b = ev.target.closest("[data-act]"); if (!b) return;
+  const a = b.dataset.act;
+  if (a === "start") return go("details");
+  if (a === "saveDetails") {
+    const n = $("#dName").value.trim().replace(/\s+/g, " "), c = $("#dCollege").value.trim().replace(/\s+/g, " ");
+    const okN = need("dName", n.length >= 3, "eName");
+    const okC = need("dCollege", c.length >= 3, "eCollege");
+    if (!okN || !okC) return;
+    store.set("ug_user", { name: n, college: c }); return go("home");
+  }
+  if (a === "editDetails") return go("details");
+  if (a === "go") return go(b.dataset.to);
+  if (a === "home") return go("home");
+  if (a === "chip") { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true"); return; }
+  if (a === "chipOther") {
+    const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on);
+    const i = $("#mClassOther"); i.hidden = !on; if (on) i.focus(); return;
+  }
+  if (a === "seen") { const l = subs(); const s = l.find(x => x.id === b.dataset.id); if (s) { s.seen = true; store.set("ug_subs", l); render(); } return; }
+  if (a === "sendNotice") return sendNotice();
+  if (a === "sendMaterial") return sendMaterial();
+});
+
+/* ---------- start ---------- */
+(function init() {
+  const l = subs().filter(s => Date.now() - (s.ts || 0) < 60 * 86400000); store.set("ug_subs", l);
+  S.screen = "landing"; render();
+})();
+</script>
+</body>
+</html>
