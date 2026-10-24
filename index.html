@@ -747,7 +747,7 @@ function buildRecord() {
   const f = S.f, a = f.ans, u = user() || {};
   const uniId = a.uni || "__general";
   const uni = uniId === "__other" ? { id: "__other", name: norm(a.uni_o) } : uniId === "__general" ? { id: "__general", name: GENERAL } : { id: uniId, name: a.uni_n };
-  const base = { name: u.name, college: "-", credit: !!a.credit, ts: Date.now(), uid: deviceId(), uni_id: uni.id, uni_name: uni.name };
+  const base = { name: u.name, college: "N/A", credit: !!a.credit, ts: Date.now(), uid: deviceId(), uni_id: uni.id, uni_name: uni.name };
   if (f.kind === "notice") {
     const title = norm(a.title);
     return { rec: Object.assign(base, { kind: "notice", uni_kind: a.nk, title, notice_date: a.ndate || "" }), title };
@@ -761,15 +761,15 @@ function buildRecord() {
   const author = a.mt === "Book" ? norm(a.author) : "";
   let paper;
   switch (a.mt) {
-    case "PYQ": paper = `${subject} ${year}`; break;
+    case "PYQ": paper = "Question Paper"; break;
     case "Notes": paper = unit; break;
-    case "Model Paper": paper = `${subject} Model Paper`; break;
-    case "Syllabus": paper = `${subject} Syllabus`; break;
+    case "Model Paper": paper = "Model Paper"; break;
+    case "Syllabus": paper = "Syllabus"; break;
     case "Book": paper = norm(a.btitle); break;
     default: paper = norm(a.otitle);
   }
   const note = [author ? `Author/Publisher: ${author}` : "", unit ? `Unit: ${unit}` : "", norm(a.note)].filter(Boolean).join(" | ");
-  const title = `${mtype} · ${cls} · ${paper}`;
+  const title = [mtype, subject !== GENERAL ? subject : paper, cls, year !== "NA" ? year : ""].filter(Boolean).join(" · ");
   return { rec: Object.assign(base, { kind: "material", mtype, subject, paper, year, classes: [cls], class: cls, sem, unit, uni_id: uni.id, uni_name: uni.name, extra: author, note }), title };
 }
 async function send() {
