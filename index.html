@@ -6,121 +6,160 @@
 <title>University Gyaan — Notice और Study Material भेजें</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
-<meta name="description" content="University Gyaan के लिए Notice या Study Material भेजें। Telegram की ज़रूरत नहीं।">
+<meta name="description" content="University Gyaan के लिए Notice या Study Material भेजें। Telegram की ज़रूरत नहीं।">
 <meta name="theme-color" content="#0A1F6B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0A1F6B; --navy-2:#162B80; --gold:#C9A227; --gold-soft:#F6EBC4;
-  --paper:#F5F7FC; --card:#FFFFFF; --ink:#12121A; --muted:#5B6275; --line:#D9DEEC;
+  --navy:#0A1F6B; --navy-2:#162B80; --navy-d:#061348; --gold:#C9A227; --gold-l:#E8C65A; --gold-d:#7e6414; --gold-soft:#F6EBC4;
+  --paper:#EEF2FB; --card:#FFFFFF; --ink:#12121A; --muted:#5B6275; --line:#D9DEEC;
   --ok:#17794A; --ok-bg:#E3F4EA; --warn:#8A5A00; --warn-bg:#FFF1CC; --bad:#B3261E; --bad-bg:#FBE4E2;
-  --r:14px;
+  --r:16px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hind",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.5}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hind",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.5;overflow-x:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
-.topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;box-shadow:0 3px 14px rgba(6,19,72,.35)}
 .topbar-in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;min-height:40px}
-.mark{width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;display:grid;place-items:center;letter-spacing:.5px;flex:none}
+.mark{width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;display:grid;place-items:center;flex:none}
 .mark-img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#fff;flex:none;border:2px solid rgba(255,255,255,.85)}
 .brand{font-weight:600;font-size:18px;line-height:1.1}
 .brand small{display:block;font-weight:400;font-size:13px;opacity:.8}
 .back{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:15px}
-.back[hidden]{display:none}
 
-.wrap{max-width:560px;margin:0 auto;padding:22px 16px calc(120px + env(safe-area-inset-bottom))}
-h1{font-size:30px;line-height:1.2;margin:8px 0 14px;font-weight:700;color:var(--navy);letter-spacing:-.2px}
-h2{font-size:22px;line-height:1.25;margin:4px 0 6px;font-weight:700;color:var(--navy)}
+.wrap{max-width:560px;margin:0 auto;padding:22px 16px calc(130px + env(safe-area-inset-bottom));overflow-x:clip}
+h1{font-size:28px;line-height:1.25;margin:8px 0 14px;font-weight:700;color:var(--navy)}
+h2{font-size:22px;line-height:1.3;margin:4px 0 6px;font-weight:700;color:var(--navy)}
 p{margin:0 0 12px}
 .lead{font-size:18px;color:var(--muted)}
 .muted{color:var(--muted)}
 .small{font-size:15px}
 
-.promises{list-style:none;margin:22px 0;padding:0;display:grid;gap:14px}
-.promises li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
-.promises svg{width:26px;height:26px;color:var(--ok);margin-top:2px}
-.promises b{display:block;font-weight:600}
-
-label.f{display:block;margin:0 0 18px}
+/* ---------- inputs ---------- */
 .lab{display:block;font-weight:600;margin-bottom:6px}
-.hint{display:block;font-size:15px;color:var(--muted);margin-top:5px}
-.inp,select.inp,textarea.inp{width:100%;min-height:50px;padding:10px 14px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;appearance:none;-webkit-appearance:none}
-select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%230A1F6B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
-textarea.inp{min-height:84px;resize:vertical}
-.inp:focus{border-color:var(--navy);outline:none;box-shadow:0 0 0 3px rgba(10,31,107,.18)}
+.hint{display:block;font-size:15px;color:var(--muted);margin-top:6px}
+.inp,select.inp,textarea.inp{width:100%;min-height:54px;padding:10px 16px;background:var(--card);border:2px solid var(--line);border-radius:14px;appearance:none;-webkit-appearance:none;font-size:18px;box-shadow:0 3px 0 #C9D0E6}
+select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%230A1F6B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
+textarea.inp{min-height:90px;resize:vertical}
+.inp:focus{border-color:var(--navy);outline:none;box-shadow:0 3px 0 #C9D0E6,0 0 0 4px rgba(10,31,107,.16)}
 .inp.err{border-color:var(--bad)}
-.errmsg{color:var(--bad);font-size:15px;margin-top:5px;display:none}
-.err+.errmsg,.errmsg.show{display:block}
+.errmsg{color:var(--bad);font-size:15px;margin-top:6px;min-height:0}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.vh{position:absolute;opacity:0;width:1px;height:1px;overflow:hidden}
 
-.choices{display:grid;gap:12px;margin:20px 0}
-.choice{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;width:100%}
-.choice:hover,.choice:active{border-color:var(--navy)}
-.choice .ic{width:52px;height:52px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center}
-.choice .ic.gold{background:var(--gold);color:var(--navy)}
-.choice .ic svg{width:28px;height:28px}
-.choice b{display:block;font-size:19px;color:var(--navy)}
-.choice span{color:var(--muted);font-size:15px;line-height:1.35;display:block}
+/* ---------- 3D buttons ---------- */
+.btn-3d{position:relative;display:block;width:100%;border:0;border-radius:16px;padding:15px 24px;font-size:20px;font-weight:700;cursor:pointer;text-align:center;
+  background:linear-gradient(160deg,var(--gold-l),var(--gold) 55%,#a5841e);color:var(--navy);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 7px 0 var(--gold-d),0 14px 22px rgba(60,45,5,.28);
+  transition:transform .12s,box-shadow .12s;-webkit-tap-highlight-color:transparent}
+.btn-3d:hover{transform:translateY(-1px)}
+.btn-3d:active,.btn-3d.pressed{transform:translateY(7px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 0 var(--gold-d),0 4px 8px rgba(60,45,5,.2)}
+.btn-3d[disabled]{background:linear-gradient(160deg,#D5D9E8,#B9BFD6);color:#7A8197;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 7px 0 #9AA1BC,0 12px 18px rgba(30,40,80,.12);cursor:not-allowed;transform:none}
+.btn-3d.navy{background:linear-gradient(160deg,#2640A8,var(--navy-2) 55%,var(--navy));color:#fff;box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 7px 0 var(--navy-d),0 14px 22px rgba(6,19,72,.35)}
+.btn-3d.navy:active{box-shadow:inset 0 2px 0 rgba(255,255,255,.2),0 0 0 var(--navy-d),0 4px 8px rgba(6,19,72,.3)}
+.btn-3d.green{background:linear-gradient(160deg,#2FA56C,var(--ok) 60%,#0F5E38);color:#fff;box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 7px 0 #0B4228,0 14px 22px rgba(10,60,35,.3)}
+.btn-3d.green:active{box-shadow:0 0 0 #0B4228,0 4px 8px rgba(10,60,35,.25)}
+.btn-3d.soft{background:linear-gradient(160deg,#fff,#EDF0FA);color:var(--navy);box-shadow:inset 0 2px 0 #fff,0 6px 0 #B9C1DE,0 12px 18px rgba(30,40,80,.14);font-size:18px}
+.btn-3d.soft:active{box-shadow:0 0 0 #B9C1DE,0 3px 6px rgba(30,40,80,.15)}
+.btn-3d svg{width:24px;height:24px;vertical-align:-5px;margin-right:8px}
+.skip{display:block;margin:16px auto 0;background:none;border:0;color:var(--navy);text-decoration:underline;font-size:16px;cursor:pointer;padding:6px}
+.link{background:none;border:0;color:var(--navy);text-decoration:underline;cursor:pointer;padding:6px 0;font-size:16px}
 
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:8px 15px;cursor:pointer;min-height:42px}
-.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.actions{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(#EEF2FB00,#EEF2FB 30%);padding:26px 16px calc(18px + env(safe-area-inset-bottom));z-index:15}
+.actions-in{max-width:560px;margin:0 auto}
 
-.drop{display:block;border:2px dashed #AEB7D6;border-radius:var(--r);background:var(--card);padding:22px 16px;text-align:center;cursor:pointer}
-.drop:hover{border-color:var(--navy)}
-.drop svg{width:34px;height:34px;color:var(--navy)}
-.drop b{display:block;color:var(--navy);margin-top:6px}
-.drop input{position:absolute;opacity:0;width:1px;height:1px}
-.drop:focus-within{outline:3px solid var(--gold);outline-offset:2px}
-.picked{margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--ok-bg);color:#0E4D2F;font-size:15px;display:none}
+/* ---------- landing ---------- */
+.landing{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:74vh;text-align:center;perspective:900px}
+.blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.55;z-index:0}
+.blob.b1{width:190px;height:190px;left:-70px;top:4%;background:radial-gradient(circle at 30% 30%,#9BB0FF,#3A55C8)}
+.blob.b2{width:130px;height:130px;right:-40px;top:38%;background:radial-gradient(circle at 30% 30%,#F6E08A,var(--gold))}
+.blob.b3{width:90px;height:90px;left:12%;bottom:6%;background:radial-gradient(circle at 30% 30%,#C7D2FF,#5A73D6)}
+.logo3d{position:relative;z-index:1;width:156px;height:156px;margin-bottom:26px;border-radius:50%;transform-style:preserve-3d;
+  box-shadow:0 0 0 6px #fff,0 0 0 9px var(--gold),0 10px 0 9px #a5841e,0 28px 40px rgba(6,19,72,.35)}
+.logo3d img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;display:block}
+.ltitle{position:relative;z-index:1;font-size:40px;font-weight:700;color:var(--navy);line-height:1.1;margin-bottom:8px;text-shadow:0 2px 0 #fff,0 5px 10px rgba(10,31,107,.18)}
+.lsub{position:relative;z-index:1;font-size:22px;color:var(--muted);margin-bottom:22px;font-weight:500}
+.pills{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:38px}
+.pill{background:#fff;border-radius:999px;padding:7px 16px;font-weight:600;font-size:15px;color:var(--navy);box-shadow:0 4px 0 #C4CBE4,0 8px 14px rgba(10,31,107,.12)}
+.landing .btn-3d{position:relative;z-index:1;max-width:340px}
+
+/* ---------- instructions ---------- */
+.steps{list-style:none;margin:20px 0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 4px 0 #C9D0E6,0 10px 18px rgba(10,31,107,.08)}
+.steps li::before{content:counter(s);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:20px;color:var(--navy);background:linear-gradient(160deg,var(--gold-l),var(--gold));box-shadow:0 3px 0 var(--gold-d)}
+.steps b{display:block;color:var(--navy)}
+.steps span{color:var(--muted);font-size:15px;line-height:1.35;display:block}
+.safe{background:var(--gold-soft);border-radius:14px;padding:12px 14px;font-size:15px;margin:0 0 22px}
+.namebox{background:#fff;border-radius:18px;padding:16px;box-shadow:0 5px 0 #C9D0E6,0 12px 22px rgba(10,31,107,.1)}
+
+/* ---------- 3D cards (home) ---------- */
+.deck{display:grid;gap:26px;margin:24px 0 8px;perspective:1100px}
+.float{animation:floaty 5s ease-in-out infinite}
+.deck .float:nth-child(2){animation-delay:-2.4s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.card3d{position:relative;display:block;width:100%;text-align:left;border:0;border-radius:24px;padding:24px 22px 24px;color:#fff;cursor:pointer;overflow:hidden;
+  transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .18s ease-out,box-shadow .2s;-webkit-tap-highlight-color:transparent;
+  background:linear-gradient(145deg,#2A45B5 0%,var(--navy-2) 45%,var(--navy) 100%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.3),0 10px 0 var(--navy-d),0 26px 34px rgba(6,19,72,.38)}
+.card3d.gold{color:var(--navy);background:linear-gradient(145deg,#F6DC86 0%,var(--gold) 55%,#A98820 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 10px 0 var(--gold-d),0 26px 34px rgba(80,60,5,.35)}
+.card3d::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle 160px at var(--mx,25%) var(--my,15%),rgba(255,255,255,.34),transparent 70%)}
+.card3d:active{transform:translateY(8px) scale(.99)}
+.card3d .ic{width:68px;height:68px;border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.18);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 6px 12px rgba(0,0,0,.2);transform:translateZ(46px);margin-bottom:14px}
+.card3d.gold .ic{background:rgba(255,255,255,.42)}
+.card3d .ic svg{width:38px;height:38px}
+.card3d b{display:block;font-size:26px;line-height:1.2;transform:translateZ(30px)}
+.card3d span.d{display:block;font-size:16px;opacity:.9;margin-top:4px;line-height:1.4;transform:translateZ(20px)}
+.card3d .go{position:absolute;right:20px;top:24px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;transform:translateZ(36px)}
+.card3d .go svg{width:22px;height:22px}
+
+/* ---------- wizard ---------- */
+.ptop{display:flex;align-items:center;gap:12px;margin:0 0 20px;font-size:15px;color:var(--muted);font-weight:600;white-space:nowrap}
+.bar{flex:1;height:12px;background:#D5DBEE;border-radius:99px;overflow:hidden;box-shadow:inset 0 2px 3px rgba(10,31,107,.18)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:99px;transition:width .35s ease}
+.step{perspective:900px}
+.q{font-size:25px;line-height:1.3;margin:0 0 6px;color:var(--navy);font-weight:700}
+.opts3d{display:grid;gap:16px;margin:22px 0 8px}
+.opt3d{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:center;width:100%;text-align:left;border:0;border-radius:18px;padding:14px 16px;cursor:pointer;background:#fff;color:var(--navy);
+  box-shadow:inset 0 2px 0 #fff,0 6px 0 #B9C1DE,0 14px 20px rgba(10,31,107,.14);transition:transform .12s,box-shadow .12s;-webkit-tap-highlight-color:transparent}
+.opt3d:hover{transform:translateY(-2px)}
+.opt3d:active{transform:translateY(6px);box-shadow:0 0 0 #B9C1DE,0 3px 6px rgba(10,31,107,.15)}
+.opt3d[aria-pressed="true"]{background:linear-gradient(160deg,#2640A8,var(--navy));color:#fff;box-shadow:0 6px 0 var(--navy-d),0 14px 20px rgba(6,19,72,.3)}
+.opt3d .oi{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(160deg,#2A45B5,var(--navy));color:#fff;box-shadow:0 3px 0 var(--navy-d)}
+.opt3d .oi.g{background:linear-gradient(160deg,var(--gold-l),var(--gold));color:var(--navy);box-shadow:0 3px 0 var(--gold-d)}
+.opt3d .oi svg{width:28px;height:28px}
+.opt3d b{display:block;font-size:20px;line-height:1.25}
+.opt3d span.d{display:block;font-size:15px;opacity:.8;line-height:1.35}
+.opts3d.two{grid-template-columns:1fr 1fr}
+.opts3d.two .opt3d{grid-template-columns:1fr;text-align:center;justify-items:center;padding:18px 12px}
+.opts3d.two .oi{width:62px;height:62px}
+.otherbox{margin-top:14px}
+.fieldwrap{margin-top:18px}
+
+.filebtn{margin-top:20px}
+.picked{margin-top:18px;padding:12px 14px;border-radius:14px;background:var(--ok-bg);color:#0E4D2F;font-size:15px;display:none;word-break:break-word}
 .picked.show{display:block}
 .picked.bad{background:var(--bad-bg);color:var(--bad)}
+.thumb{display:block;max-width:100%;max-height:190px;margin:12px auto 0;border-radius:12px;box-shadow:0 6px 16px rgba(10,31,107,.25)}
 
-.check{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;margin:0 0 20px;cursor:pointer}
-.check input{width:22px;height:22px;margin:3px 0 0;accent-color:var(--navy)}
+.rv{background:#fff;border-radius:18px;padding:6px 16px;margin:16px 0;box-shadow:0 5px 0 #C9D0E6,0 12px 22px rgba(10,31,107,.1)}
+.rv div.row{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.rv div.row:last-child{border:0}
+.rv .k{font-size:14px;color:var(--muted);grid-column:1}
+.rv .val{font-weight:600;grid-column:1;word-break:break-word}
+.rv .ch{grid-column:2;grid-row:1/3;align-self:center;background:none;border:0;color:var(--navy);text-decoration:underline;cursor:pointer;font-size:15px}
 
-.actions{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(#F5F7FC00,#F5F7FC 28%);padding:22px 16px calc(14px + env(safe-area-inset-bottom));z-index:15}
-.actions-in{max-width:560px;margin:0 auto;display:grid;gap:8px}
-.btn{min-height:52px;border-radius:12px;border:0;background:var(--navy);color:#fff;font-weight:600;font-size:18px;cursor:pointer;padding:0 20px;width:100%}
-.btn:hover{background:var(--navy-2)}
-.btn[disabled]{background:#9AA3C4;cursor:not-allowed}
-.btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
-.btn.inline{width:auto;min-height:44px;font-size:16px}
-
-/* 3D Button Style for PROCEED/Start */
-.btn-3d {
-  background: linear-gradient(145deg, var(--gold), #a5841e);
-  color: var(--navy);
-  border: none;
-  border-radius: 12px;
-  padding: 14px 28px;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 0 #7e6414, 0 10px 15px rgba(0,0,0,0.15);
-  transition: all 0.15s ease;
-  width: 100%;
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-.btn-3d:active {
-  transform: translateY(6px);
-  box-shadow: 0 0px 0 #7e6414, 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.bar{height:10px;background:#DDE2F1;border-radius:99px;overflow:hidden;margin:6px 0}
-.bar i{display:block;height:100%;width:0;background:var(--navy);transition:width .2s}
-.prog{display:none;margin:4px 0 18px}
+.prog{display:none;margin:12px 0 0}
 .prog.show{display:block}
 
+/* ---------- status list ---------- */
 .list{display:grid;gap:10px;margin:10px 0 0;padding:0;list-style:none}
 .item{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:12px 14px}
 .item.new{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
@@ -131,55 +170,35 @@ textarea.inp{min-height:84px;resize:vertical}
 .b-rejected,.b-failed{background:var(--bad-bg);color:var(--bad)}
 .item .msg{font-size:15px;margin:6px 0 0;color:var(--ink)}
 .item .dismiss{background:none;border:0;color:var(--navy);text-decoration:underline;padding:6px 0 0;cursor:pointer;font-size:15px}
-.sect{display:flex;align-items:baseline;justify-content:space-between;margin-top:30px}
+.sect{display:flex;align-items:baseline;justify-content:space-between;margin-top:34px}
 .sect h2{margin:0;font-size:20px}
-.link{background:none;border:0;color:var(--navy);text-decoration:underline;cursor:pointer;padding:6px 0;font-size:16px}
+.notice-box{background:var(--gold-soft);border-radius:14px;padding:12px 14px;font-size:15px;margin:0 0 8px}
 
-.slip{position:relative;margin:18px 0 22px;background:var(--card);border:2px dashed var(--navy);border-radius:var(--r);padding:26px 20px 22px;text-align:center}
-.slip::before,.slip::after{content:"";position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--paper);border:2px dashed var(--navy)}
-.slip::before{left:-13px;transform:translateY(-50%)}
-.slip::after{right:-13px;transform:translateY(-50%)}
+.slip{position:relative;margin:22px 0;background:var(--card);border:2px dashed var(--navy);border-radius:var(--r);padding:26px 20px 22px;text-align:center}
 .slip .code{font-size:30px;font-weight:700;letter-spacing:3px;color:var(--navy);margin:6px 0 2px;word-break:break-all}
 .stamp{position:absolute;right:14px;top:-18px;transform:rotate(8deg);width:78px;height:78px;border-radius:50%;border:3px solid var(--gold);color:#8E7014;background:var(--gold-soft);display:grid;place-items:center;text-align:center;font-weight:700;font-size:15px;line-height:1.1}
-@media (prefers-reduced-motion:no-preference){
-  .stamp{animation:stamp .45s cubic-bezier(.2,1.4,.4,1) .15s both}
-  @keyframes stamp{from{transform:rotate(-14deg) scale(1.9);opacity:0}to{transform:rotate(8deg) scale(1);opacity:1}}
-}
-
-.toast{position:fixed;left:16px;right:16px;bottom:calc(92px + env(safe-area-inset-bottom));max-width:528px;margin:0 auto;background:#1B1B24;color:#fff;border-radius:12px;padding:12px 16px;z-index:40;display:none;font-size:16px}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(110px + env(safe-area-inset-bottom));max-width:528px;margin:0 auto;background:#1B1B24;color:#fff;border-radius:14px;padding:12px 16px;z-index:40;display:none;font-size:16px}
 .toast.show{display:block}
 .toast.bad{background:var(--bad)}
-.notice-box{background:var(--gold-soft);border-radius:12px;padding:12px 14px;font-size:15px;margin:0 0 18px}
 
-.landing-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70vh;
-  text-align: center;
+@media (prefers-reduced-motion:no-preference){
+  .step{animation:stepIn .38s cubic-bezier(.2,.9,.3,1) both}
+  @keyframes stepIn{from{opacity:0;transform:translateX(28px) rotateY(-10deg)}to{opacity:1;transform:none}}
+  .logo3d{animation:swing 6s ease-in-out infinite}
+  @keyframes swing{0%,100%{transform:rotateY(-14deg) rotateX(4deg) translateY(0)}50%{transform:rotateY(14deg) rotateX(-4deg) translateY(-10px)}}
+  .blob{animation:drift 9s ease-in-out infinite}
+  .blob.b2{animation-delay:-3s}.blob.b3{animation-delay:-6s}
+  @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,-18px)}}
+  .pill{animation:floaty 4s ease-in-out infinite}
+  .pill:nth-child(2){animation-delay:-1.3s}.pill:nth-child(3){animation-delay:-2.6s}.pill:nth-child(4){animation-delay:-.7s}
+  .stamp{animation:stamp .45s cubic-bezier(.2,1.4,.4,1) .15s both}
+  @keyframes stamp{from{transform:rotate(-14deg) scale(1.9);opacity:0}to{transform:rotate(8deg) scale(1);opacity:1}}
+  .opts3d .opt3d{animation:pop .4s cubic-bezier(.2,1.3,.4,1) both}
+  .opts3d .opt3d:nth-child(2){animation-delay:.06s}.opts3d .opt3d:nth-child(3){animation-delay:.12s}
+  .opts3d .opt3d:nth-child(4){animation-delay:.18s}.opts3d .opt3d:nth-child(5){animation-delay:.24s}.opts3d .opt3d:nth-child(6){animation-delay:.3s}
+  @keyframes pop{from{opacity:0;transform:translateY(22px) scale(.94)}to{opacity:1;transform:none}}
 }
-.landing-logo {
-  width: 140px;
-  height: 140px;
-  margin-bottom: 20px;
-  border-radius: 50%;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  object-fit: cover;
-}
-.landing-title {
-  font-size: 38px;
-  font-weight: 800;
-  color: var(--navy);
-  margin-bottom: 8px;
-  line-height: 1.1;
-}
-.landing-subtitle {
-  font-size: 24px;
-  color: var(--muted);
-  margin-bottom: 40px;
-  font-weight: 500;
-}
+@media (prefers-reduced-motion:reduce){.float,.pill,.logo3d,.blob{animation:none}}
 </style>
 </head>
 <body>
@@ -197,46 +216,77 @@ textarea.inp{min-height:84px;resize:vertical}
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-/* ===================== SETTINGS (sirf yahi 4 cheezein badalni hain) ===================== */
+/* ===================== SETTINGS (सिर्फ यही 4 चीज़ें बदलनी हैं) ===================== */
 const CONFIG = {
   FIREBASE_DB: "https://university-notice-bot-default-rtdb.asia-southeast1.firebasedatabase.app",
-  CLOUDINARY_CLOUD: "ca5gt4kg",     // Cloudinary dashboard par dikhta hai
-  CLOUDINARY_PRESET: "ug_contrib",         // Unsigned upload preset ka naam
-  MAX_PDF_MB: 9,                           // Cloudinary free plan me 10 MB tak
+  CLOUDINARY_CLOUD: "ca5gt4kg",
+  CLOUDINARY_PRESET: "ug_contrib",
+  MAX_PDF_MB: 9,
 };
 /* ======================================================================================= */
 
 const DB = CONFIG.FIREBASE_DB.replace(/\/+$/, "");
 const FINAL = ["approved", "rejected", "failed"];
-const MATERIAL_TYPES = [
-  ["PYQ", "PYQ — पिछले सालों के Question Paper"],
-  ["Book", "Book"],
-  ["Notes", "Notes"],
-  ["Model Paper", "Model Paper"],
-  ["Syllabus", "Syllabus"],
-  ["Other", "कुछ और"],
+
+/* ---------- एक जैसे नाम (Duplicate न बनें, इसलिए सब कुछ List से चुना जाता है) ---------- */
+const MATERIALS = [
+  { v: "PYQ", l: "PYQ", d: "पिछले सालों के Question Paper", ic: "paper", g: false },
+  { v: "Book", l: "Book", d: "कोई भी किताब (PDF)", ic: "book", g: true },
+  { v: "Notes", l: "Free Notes", d: "Notes — हाथ से लिखे या Typed", ic: "pen", g: false },
+  { v: "Model Paper", l: "Model Paper", d: "Practice / Model Question Paper", ic: "star", g: true },
+  { v: "Syllabus", l: "Syllabus", d: "Course का पूरा Syllabus", ic: "list", g: false },
+  { v: "Other", l: "कुछ और", d: "इनके अलावा कुछ भी", ic: "more", g: true },
 ];
-const CLASSES = ["Class 11", "Class 12", "B.A.", "B.Sc.", "B.Com.", "BBA", "BCA", "B.Ed.", "LL.B.", "M.A.", "M.Sc.", "M.Com."];
-const SEMS = ["1st Sem","2nd Sem","3rd Sem","4th Sem","5th Sem","6th Sem","7th Sem","8th Sem","1st Year","2nd Year","3rd Year","4th Year","सभी / General"];
-const SUBJECTS = ["Hindi","English","Sanskrit","Urdu","Physics","Chemistry","Mathematics","Botany","Zoology","Commerce","Accountancy","Business Law","Economics","Political Science","History","Sociology","Geography","Philosophy","Psychology","Computer Science","Education"];
+const CLASS_GROUPS = [
+  ["स्कूल", ["Class 11", "Class 12"]],
+  ["स्नातक (UG)", ["B.A.", "B.Sc.", "B.Com.", "BBA", "BCA", "B.Ed.", "LL.B."]],
+  ["स्नातकोत्तर (PG)", ["M.A.", "M.Sc.", "M.Com."]],
+];
+const ALL_CLASSES = CLASS_GROUPS.flatMap(g => g[1]);
+const SCHOOL = ["Class 11", "Class 12"];
+const SEMS = ["1st Sem","2nd Sem","3rd Sem","4th Sem","5th Sem","6th Sem","7th Sem","8th Sem","1st Year","2nd Year","3rd Year","4th Year"];
+const SUBJECTS = ["Accountancy","Botany","Business Law","Business Studies","Chemistry","Commerce","Computer Science","Economics","Education","English","Environmental Studies","General Knowledge","Geography","Hindi","History","Home Science","Mathematics","Philosophy","Physics","Political Science","Psychology","Public Administration","Sanskrit","Sociology","Statistics","Urdu","Zoology"];
+const GENERAL = "सभी / General";
 
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s || "").replace(/\s+/g, " ").trim();
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
 };
-
-const S = { screen: "landing", kind: null, unis: null, draft: null, busy: false, lastCode: "" };
+const S = { screen: "landing", unis: null, f: null, busy: false, lastCode: "", kind: null };
 const user = () => store.get("ug_user", null);
 const subs = () => store.get("ug_subs", []);
+function newId() {
+  const a = new Uint8Array(20); crypto.getRandomValues(a);
+  return Array.from(a, b => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join("");
+}
+function deviceId() { let u = store.get("ug_uid", null); if (!u) { u = newId(); store.set("ug_uid", u); } return u; }
+/* List में से मिलता-जुलता नाम मिले तो वही पक्का नाम इस्तेमाल हो (जैसे "b.a" -> "B.A.") */
+function canon(list, s) {
+  const key = x => x.toLowerCase().replace(/[\s.]/g, "");
+  const t = norm(s); const hit = list.find(x => key(x) === key(t));
+  return hit || t;
+}
 
 /* ---------- icons ---------- */
+const svg = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const I = {
-  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>',
-  notice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>',
-  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg>',
-  up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>',
+  notice: svg('<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>'),
+  book: svg('<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/>'),
+  up: svg('<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>'),
+  check: svg('<circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/>'),
+  arrow: svg('<path d="M5 12h14M13 6l6 6-6 6"/>'),
+  college: svg('<path d="M3 10l9-6 9 6"/><path d="M5 10v9M19 10v9M9 19v-6M15 19v-6M3 19h18"/>'),
+  uni: svg('<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V17c3 2.2 9 2.2 12 0v-5.5"/>'),
+  paper: svg('<path d="M6 3h9l4 4v14H6z"/><path d="M9 12l2 2 4-4M9 18h6"/>'),
+  pen: svg('<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>'),
+  star: svg('<path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-3-5.4 3 1.1-6L3.2 9.4l6.1-.8z"/>'),
+  list: svg('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),
+  more: svg('<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>'),
+  yes: svg('<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/>'),
+  no: svg('<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>'),
 };
 
 /* ---------- helpers ---------- */
@@ -244,14 +294,10 @@ function toast(msg, bad) {
   const t = $("#toast"); t.textContent = msg; t.className = "toast show" + (bad ? " bad" : "");
   clearTimeout(toast._t); toast._t = setTimeout(() => t.className = "toast", 4500);
 }
-function newId() {
-  const a = new Uint8Array(20); crypto.getRandomValues(a);
-  return Array.from(a, b => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join("");
-}
 function fmtSize(b) { return b >= 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB"; }
 function go(screen, kind) {
-  S.screen = screen; if (kind !== undefined) S.kind = kind;
-  if (screen === "notice" || screen === "material") S.draft = { file: null, classes: [] };
+  S.screen = screen;
+  if (screen === "flow") { S.kind = kind; startFlow(kind); return; }
   render(); window.scrollTo(0, 0);
 }
 async function loadUnis() {
@@ -263,15 +309,161 @@ async function loadUnis() {
   } catch { S.unis = []; }
   return S.unis;
 }
-function uniOptions(unis, withGeneral) {
+const optHtml = (v, l) => `<option value="${esc(v)}">${esc(l)}</option>`;
+function uniOptions(kind, withGeneral) {
+  const unis = S.unis || [];
   const col = unis.filter(u => u.c === "college").sort((a, b) => a.n.localeCompare(b.n));
   const uni = unis.filter(u => u.c !== "college").sort((a, b) => a.n.localeCompare(b.n));
-  const o = n => `<option value="${esc(n.id)}">${esc(n.n)}</option>`;
-  return `<option value="">चुनें…</option>` +
-    (withGeneral ? `<option value="__general">सभी / General</option>` : "") +
-    (uni.length ? `<optgroup label="Universities">${uni.map(o).join("")}</optgroup>` : "") +
-    (col.length ? `<optgroup label="Colleges">${col.map(o).join("")}</optgroup>` : "") +
+  const group = (lab, arr) => arr.length ? `<optgroup label="${lab}">${arr.map(n => optHtml(n.id, n.n)).join("")}</optgroup>` : "";
+  let body;
+  if (kind === "college") body = col.map(n => optHtml(n.id, n.n)).join("");
+  else if (kind === "university") body = uni.map(n => optHtml(n.id, n.n)).join("");
+  else body = group("Universities", uni) + group("Colleges", col);
+  return `<option value="">चुनें…</option>` + (withGeneral ? optHtml("__general", GENERAL) : "") + body +
     `<option value="__other">Other (List में नहीं है)</option>`;
+}
+
+/* ====================================================================
+   STEPS — हर सवाल एक Step है। सवाल एक-एक करके दिखते हैं।
+   t: choice | select | text | date | file | yesno | review
+   ==================================================================== */
+const titleCase = s => s.replace(/(^|\s)([a-z])/g, (m, sp, c) => sp + c.toUpperCase());
+function getName(a, id) {
+  if (a[id] !== "__other") return a[id + "_n"] || a[id] || "";
+  const t = norm(a[id + "_o"]);
+  if (id === "cls") return canon(ALL_CLASSES, t);
+  if (id === "subj") { const c = canon(SUBJECTS, t); return c === t ? titleCase(t) : c; }
+  return t;
+}
+
+function selStep(o) {
+  return Object.assign({
+    t: "select",
+    check(a) {
+      if (!a[o.id]) return o.optional ? "" : "एक Option चुनें।";
+      if (a[o.id] === "__other" && norm(a[o.id + "_o"]).length < 2) return "नाम लिखें।";
+      return "";
+    },
+    disp(a) { return a[o.id] ? getName(a, o.id) : "—"; },
+  }, o);
+}
+function txtStep(o) {
+  return Object.assign({
+    t: "text", min: 2,
+    check(a) { const n = norm(a[o.id]).length; if (!n && o.optional) return ""; return n >= (o.min || 2) ? "" : (o.err || "थोड़ा और लिखें।"); },
+    disp(a) { return norm(a[o.id]) || "—"; },
+  }, o);
+}
+
+const ST = {
+  /* ----- Notice ----- */
+  nk: { id: "nk", t: "choice", label: "Notice किसका है", q: "Notice किसका है?", hint: "एक चुनें।", two: true,
+    opts: [{ v: "college", l: "College Notice", ic: "college" }, { v: "university", l: "University Notice", ic: "uni", g: true }],
+    check: a => a.nk ? "" : "एक Option चुनें।", disp: a => a.nk === "college" ? "College Notice" : "University Notice" },
+  nuni: selStep({ id: "uni", label: "नाम",
+    q: a => a.nk === "college" ? "College का नाम चुनें" : "University का नाम चुनें",
+    hint: "List में अपना नाम न मिले तो सबसे नीचे 'Other' चुनें और पूरा नाम लिखें।",
+    html: a => uniOptions(a.nk, false),
+    other: a => ({ lab: (a.nk === "college" ? "College" : "University") + " का पूरा नाम", ph: a.nk === "college" ? "जैसे: Raj Rishi College, Alwar" : "जैसे: Maharaja Surajmal Brij University, Bharatpur" }) }),
+  ntitle: txtStep({ id: "title", label: "Notice किस बारे में है", q: "Notice किस बारे में है?", hint: "हिंदी में, एक Line में लिखें।", min: 8,
+    ph: "जैसे: B.A. तृतीय सेमेस्टर परीक्षा फॉर्म की अंतिम तिथि बढ़ी", err: "कम से कम 8 अक्षर लिखें।", max: 150 }),
+  ndate: { id: "ndate", t: "date", label: "Notice की तारीख़", q: "Notice की तारीख़ क्या है?", hint: "Notice पर जो तारीख़ लिखी है, वही चुनें।",
+    check: a => a.ndate ? "" : "तारीख़ चुनें।",
+    disp: a => a.ndate ? a.ndate.split("-").reverse().join("-") : "—" },
+
+  /* ----- Study Material ----- */
+  mt: { id: "mt", t: "choice", label: "क्या भेज रहे हैं", q: "आप क्या भेजना चाहते हैं?", hint: "एक चुनें — उसी के हिसाब से आगे के सवाल आएँगे।",
+    opts: MATERIALS, check: a => a.mt ? "" : "एक Option चुनें।", disp: a => (MATERIALS.find(m => m.v === a.mt) || {}).l || "" },
+  cls: selStep({ id: "cls", label: "Class / Course", q: "यह किस Class या Course के लिए है?", hint: "List में से ही चुनें, ताकि सारी Files एक जगह जमा हों।",
+    html: () => `<option value="">चुनें…</option>` + CLASS_GROUPS.map(g => `<optgroup label="${g[0]}">${g[1].map(c => optHtml(c, c)).join("")}</optgroup>`).join("") + `<option value="__other">अन्य (List में नहीं है)</option>`,
+    other: () => ({ lab: "Class / Course का पूरा नाम", ph: "जैसे: B.Tech" }) }),
+  subj: selStep({ id: "subj", label: "Subject", q: "Subject कौन सा है?", hint: "List में न मिले तो सबसे नीचे 'अन्य' चुनें।",
+    html: () => `<option value="">चुनें…</option>` + SUBJECTS.map(s => optHtml(s, s)).join("") + `<option value="__other">अन्य (List में नहीं है)</option>`,
+    other: () => ({ lab: "Subject का नाम", ph: "जैसे: Public Administration" }) }),
+  sem: selStep({ id: "sem", label: "Semester / Year", q: "कौन सा Semester या Year?", hint: "",
+    show: a => !SCHOOL.includes(a.cls),
+    html: () => `<option value="">चुनें…</option>` + SEMS.map(s => optHtml(s, s)).join("") }),
+  year: selStep({ id: "year", label: "Paper का साल", q: "Paper किस साल का है?", hint: "Exam जिस साल हुआ, वही साल चुनें।",
+    html: () => { const y = new Date().getFullYear(); let h = `<option value="">चुनें…</option>`; for (let i = y; i >= 2000; i--) h += optHtml(i, i); return h; } }),
+  unit: txtStep({ id: "unit", label: "Unit का नाम", q: "Unit या Chapter का नाम क्या है?", hint: "Notes किस Unit के हैं, यह लिखें।", ph: "जैसे: Unit 3 — भक्तिकाल", min: 2, max: 100 }),
+  muni: selStep({ id: "uni", label: "University", q: "किस University से जुड़ा है?", hint: "List में न मिले तो सबसे नीचे 'Other' चुनें और पूरा नाम लिखें।",
+    html: () => uniOptions("all", false),
+    other: () => ({ lab: "University का पूरा नाम", ph: "जैसे: Maharaja Surajmal Brij University, Bharatpur" }) }),
+  muniOpt: selStep({ id: "uni", label: "University", q: "किस University से जुड़ा है?", hint: "पता न हो तो नीचे 'छोड़ें' दबाएँ।", optional: true,
+    html: () => uniOptions("all", false),
+    other: () => ({ lab: "University का पूरा नाम", ph: "जैसे: Maharaja Surajmal Brij University, Bharatpur" }) }),
+  btitle: txtStep({ id: "btitle", label: "Book का नाम", q: "Book का नाम क्या है?", hint: "", ph: "जैसे: हिंदी साहित्य का इतिहास", min: 2, max: 100 }),
+  author: txtStep({ id: "author", label: "Author", q: "Book किसने लिखी है?", hint: "Author या Publisher का नाम (पता न हो तो छोड़ें)।", ph: "जैसे: आचार्य रामचंद्र शुक्ल", optional: true, max: 80 }),
+  otitle: txtStep({ id: "otitle", label: "यह क्या है", q: "यह File किस बारे में है?", hint: "छोटे में बताइए, जैसे Assignment, Project, Question Bank।", ph: "जैसे: Assignment — Unit 2", min: 2, max: 100 }),
+  subjOpt: null,
+
+  /* ----- आख़िर के Steps ----- */
+  file: { id: "file", t: "file", label: "File", q: "File चुनें", hint: "PDF या Photo (JPG / PNG)। बड़ी Photo अपने आप छोटी हो जाती है, साफ़ पढ़ने लायक रहती है।",
+    check: () => S.f && S.f.file ? "" : "पहले File चुनें।",
+    disp: () => S.f && S.f.file ? S.f.file.name : "—" },
+  credit: { id: "credit", t: "yesno", label: "Post में आपका नाम", q: "Post में आपका नाम लिखें?", hint: "नाम सिर्फ तभी Public में दिखेगा, जब आप 'हाँ' चुनें।",
+    check: a => a.credit === undefined ? "एक Option चुनें।" : "", disp: a => a.credit ? "हाँ, नाम लिखें" : "नहीं, नाम न लिखें" },
+  review: { id: "review", t: "review", label: "", q: "एक बार देख लीजिए", hint: "सब ठीक हो तो नीचे Admin को भेजें।", check: () => "" },
+};
+ST.subjOpt = Object.assign({}, ST.subj, { id: "subj", optional: true, hint: "पता न हो तो नीचे 'छोड़ें' दबाएँ।",
+  check(a) { if (!a.subj) return ""; return a.subj === "__other" && norm(a.subj_o).length < 2 ? "नाम लिखें।" : ""; } });
+
+function stepsFor(f) {
+  const a = f.ans, tail = [ST.file, ST.credit, ST.review];
+  let list;
+  if (f.kind === "notice") list = [ST.nk, ST.nuni, ST.ntitle, ST.ndate, ...tail];
+  else switch (a.mt) {
+    case "PYQ": list = [ST.mt, ST.cls, ST.subj, ST.sem, ST.year, ST.muni, ...tail]; break;
+    case "Notes": list = [ST.mt, ST.cls, ST.subj, ST.sem, ST.unit, ST.muni, ...tail]; break;
+    case "Model Paper": list = [ST.mt, ST.cls, ST.subj, ST.sem, ST.muni, ...tail]; break;
+    case "Syllabus": list = [ST.mt, ST.cls, ST.subj, ST.muni, ...tail]; break;
+    case "Book": list = [ST.mt, ST.cls, ST.subj, ST.btitle, ST.author, ST.muniOpt, ...tail]; break;
+    case "Other": list = [ST.mt, ST.otitle, ST.cls, ST.subjOpt, ST.muniOpt, ...tail]; break;
+    default: list = [ST.mt];
+  }
+  return list.filter(s => !s.show || s.show(a));
+}
+const Q = (x, a) => typeof x === "function" ? x(a) : x;
+
+/* ---------- flow control ---------- */
+async function startFlow(kind) {
+  S.f = { kind, i: 0, ans: {}, file: null, r2: false, uploaded: null };
+  const v = $("#view"); $("#backBtn").hidden = false;
+  v.innerHTML = `<p class="muted" style="margin-top:40px;text-align:center">एक Second…</p>`;
+  await loadUnis();
+  if (S.screen !== "flow") return;
+  render(); window.scrollTo(0, 0);
+}
+function curSteps() { return stepsFor(S.f); }
+function readInputs() {
+  const f = S.f, st = curSteps()[f.i]; if (!st) return;
+  const a = f.ans, el = $("#in");
+  if (st.t === "select" && el) {
+    a[st.id] = el.value; const o = el.options[el.selectedIndex]; a[st.id + "_n"] = o && el.value ? o.textContent : "";
+    const oi = $("#inO"); if (oi) a[st.id + "_o"] = oi.value;
+  } else if (st.t === "text" && el) a[st.id] = el.value;
+  else if (st.t === "date" && el) a[st.id] = el.value;
+}
+function refreshNext() {
+  const st = curSteps()[S.f.i]; if (!st) return;
+  const btn = $("#nextBtn"); if (!btn) return;
+  readInputs(); const err = st.check(S.f.ans);
+  btn.disabled = !!err; btn.dataset.err = err;
+}
+function next() {
+  const f = S.f, steps = curSteps(), st = steps[f.i];
+  readInputs(); const err = st.check(f.ans);
+  if (err) { toast(err, true); return; }
+  if (f.r2) {
+    const k = steps.findIndex((s, idx) => idx > f.i && s.id !== "review" && s.check(f.ans));
+    f.i = k >= 0 ? k : steps.length - 1;
+    if (k < 0) f.r2 = false;
+  } else f.i = Math.min(f.i + 1, steps.length - 1);
+  render(); window.scrollTo(0, 0);
+}
+function stepBack() {
+  const f = S.f; if (S.busy) return;
+  if (f.i > 0) { f.i--; f.r2 = false; render(); window.scrollTo(0, 0); } else go("home");
 }
 
 /* ---------- render ---------- */
@@ -280,95 +472,174 @@ function render() {
   back.hidden = ["landing", "welcome", "home"].includes(S.screen);
   if (S.screen === "landing") return landing(v);
   if (S.screen === "welcome") return welcome(v);
-  if (S.screen === "details") return details(v);
   if (S.screen === "home") return home(v);
-  if (S.screen === "notice") return noticeForm(v);
-  if (S.screen === "material") return materialForm(v);
+  if (S.screen === "flow") return stepView(v);
   if (S.screen === "done") return done(v);
 }
 $("#backBtn").addEventListener("click", () => {
   if (S.busy) return;
-  go(user() ? "home" : "welcome");
+  if (S.screen === "flow") return stepBack();
+  go(user() ? "home" : "landing");
 });
 
 function landing(v) {
   v.innerHTML = `
-    <div class="landing-center">
-      <img src="favicon.png" alt="University Gyaan Logo" class="landing-logo" onerror="this.style.display='none'">
-      <div class="landing-title">University Gyaan</div>
-      <div class="landing-subtitle">Student का योगदान</div>
-      <button class="btn-3d" data-act="go" data-to="welcome">PROCEED</button>
+    <div class="landing">
+      <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+      <div class="logo3d"><img src="favicon.png" alt="University Gyaan Logo" onerror="this.style.display='none'"></div>
+      <div class="ltitle">University Gyaan</div>
+      <div class="lsub">Student का योगदान</div>
+      <div class="pills"><span class="pill">Notice</span><span class="pill">PYQ</span><span class="pill">Free Notes</span><span class="pill">Syllabus</span></div>
+      <button class="btn-3d" data-act="landingNext">जारी रखें</button>
     </div>`;
 }
 
 function welcome(v) {
-  v.innerHTML = `
-    <h1>एक File भेजें, किसी और का Semester आसान हो जाएगा।</h1>
-    <p class="lead">आपके College या University का कोई Notice, या Study Material (PYQ, Book, Notes) — यहीं से सीधा Admin तक पहुँचता है।</p>
-    <ul class="promises">
-      <li>${I.check}<div><b>Telegram की ज़रूरत नहीं</b>सिर्फ यह Page। कोई Account या Password नहीं।</div></li>
-      <li>${I.check}<div><b>सिर्फ नाम और College पूछते हैं</b>Phone number, Email या Location कभी नहीं। आपका नाम सिर्फ Admin देखता है — Public में तभी, जब आप खुद कहें।</div></li>
-      <li>${I.check}<div><b>हर File Admin देखकर ही Post होती है</b>Approve या Reject — दोनों का जवाब आपको इसी Page पर मिलता है।</div></li>
-    </ul>
-    <div class="actions"><div class="actions-in"><button class="btn-3d" style="font-size:18px; padding:12px 20px" data-act="start">START</button></div></div>`;
-}
-
-function details(v) {
   const u = user() || {};
   v.innerHTML = `
-    <h2>पहले थोड़ी जानकारी</h2>
-    <p class="muted">असली नाम लिखें। इससे Admin को File verify करने में मदद मिलती है। यह जानकारी सिर्फ Admin को दिखती है और किसी और को नहीं दी जाती।</p>
-    <label class="f"><span class="lab">आपका नाम</span>
+    <h1>एक File भेजें, किसी और का Semester आसान हो जाएगा।</h1>
+    <p class="lead">यहाँ से आप Notice या Study Material सीधे Admin तक भेज सकते हैं। बस 3 आसान Steps:</p>
+    <ol class="steps">
+      <li><div><b>चुनें कि क्या भेजना है</b><span>Notice या Study Material (PYQ, Book, Free Notes…)</span></div></li>
+      <li><div><b>एक-एक सवाल का जवाब दें</b><span>हर सवाल अलग दिखेगा — बस चुनते जाइए।</span></div></li>
+      <li><div><b>File चुनकर Admin को भेज दें</b><span>Admin देखकर Approve करेंगे और जवाब इसी Page पर आएगा।</span></div></li>
+    </ol>
+    <div class="safe"><b>आपकी जानकारी सुरक्षित है।</b> कोई Account या Password नहीं। Phone number, Email या Location कभी नहीं पूछते। आपका नाम सिर्फ Admin देखते हैं — Public में तभी, जब आप खुद कहें।</div>
+    <div class="namebox">
+      <label class="lab" for="dName">आपका नाम</label>
       <input class="inp" id="dName" maxlength="60" autocomplete="name" value="${esc(u.name || "")}" placeholder="जैसे: Rahul Sharma">
-      <span class="errmsg" id="eName">अपना पूरा नाम लिखें।</span></label>
-    <label class="f"><span class="lab">आपका College या University</span>
-      <input class="inp" id="dCollege" maxlength="90" autocomplete="organization" value="${esc(u.college || "")}" placeholder="जैसे: Meerut College, Meerut">
-      <span class="errmsg" id="eCollege">College का नाम लिखें।</span></label>
-    <div class="actions"><div class="actions-in"><button class="btn" data-act="saveDetails">आगे बढ़ें</button></div></div>`;
+      <span class="hint">असली नाम लिखें। इससे Admin को File जाँचने में आसानी होती है।</span>
+      <div class="errmsg" id="eName"></div>
+    </div>
+    <div class="actions"><div class="actions-in"><button class="btn-3d" data-act="saveName">आगे बढ़ें</button></div></div>`;
 }
 
 function home(v) {
-  const u = user(); if (!u) return go("details");
+  const u = user(); if (!u) return go("welcome");
   const list = subs();
   const unseen = list.filter(s => FINAL.includes(s.state) && !s.seen).length;
   v.innerHTML = `
-    <h2>नमस्ते, ${esc(u.name.split(" ")[0])}</h2>
-    <p class="muted">${esc(u.college)} · <button class="link" data-act="editDetails">बदलें</button></p>
+    <h2>नमस्ते, ${esc(u.name.split(" ")[0])} 🙏</h2>
+    <p class="muted">आप क्या भेजना चाहते हैं? · <button class="link" data-act="editName">नाम बदलें</button></p>
     ${unseen ? `<div class="notice-box"><b>आपकी ${unseen === 1 ? "एक File" : unseen + " Files"} का जवाब आ गया है।</b> नीचे देखें।</div>` : ""}
-    <p class="lead" style="margin-top:14px">आप क्या भेजना चाहते हैं?</p>
-    <div class="choices">
-      <button class="choice" data-act="go" data-to="notice"><span class="ic">${I.notice}</span><div><b>Notice</b><span>किसी College या University का नया Notice (PDF या Photo)</span></div></button>
-      <button class="choice" data-act="go" data-to="material"><span class="ic gold">${I.book}</span><div><b>Study Material</b><span>PYQ, Book, Notes या Model Paper</span></div></button>
+    <div class="deck">
+      <div class="float"><button class="card3d" data-act="flow" data-to="notice">
+        <span class="go">${I.arrow}</span><span class="ic">${I.notice}</span>
+        <b>Notice</b><span class="d">College या University का नया Notice भेजें</span></button></div>
+      <div class="float"><button class="card3d gold" data-act="flow" data-to="material">
+        <span class="go">${I.arrow}</span><span class="ic">${I.book}</span>
+        <b>Study Material</b><span class="d">PYQ, Book, Free Notes, Model Paper, Syllabus</span></button></div>
     </div>
     <div class="sect"><h2>आपकी भेजी हुई Files</h2></div>
     ${list.length ? `<ul class="list">${list.map(subItem).join("")}</ul>` : `<p class="muted">अभी कुछ नहीं भेजा। ऊपर से पहली File भेजें।</p>`}`;
-  refreshStatuses();
+  bindTilt(); refreshStatuses();
+}
+function bindTilt() {
+  if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  document.querySelectorAll(".card3d").forEach(c => {
+    const move = e => {
+      const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      c.style.setProperty("--ry", ((x - .5) * 16).toFixed(1) + "deg");
+      c.style.setProperty("--rx", ((.5 - y) * 14).toFixed(1) + "deg");
+      c.style.setProperty("--mx", (x * 100).toFixed(0) + "%"); c.style.setProperty("--my", (y * 100).toFixed(0) + "%");
+    };
+    const reset = () => { c.style.setProperty("--rx", "0deg"); c.style.setProperty("--ry", "0deg"); };
+    c.addEventListener("pointermove", move); c.addEventListener("pointerdown", move);
+    c.addEventListener("pointerleave", reset); c.addEventListener("pointerup", reset); c.addEventListener("pointercancel", reset);
+  });
 }
 const STATE_TEXT = { sent: "Admin तक पहुँच रही है", pending: "Admin देख रहे हैं", approved: "Post हो गई", rejected: "Approve नहीं हुई", failed: "Upload नहीं हो पाई" };
 function subItem(s) {
   const fresh = FINAL.includes(s.state) && !s.seen;
+  const msg = s.msg || (s.state === "approved" ? "बहुत-बहुत धन्यवाद! आपकी File Post हो गई है। 🙏" : "");
   return `<li class="item${fresh ? " new" : ""}">
     <h3>${esc(s.title)}</h3>
     <span class="badge b-${esc(s.state)}">${esc(STATE_TEXT[s.state] || s.state)}</span>
     <span class="muted small"> · ${s.kind === "notice" ? "Notice" : "Study Material"}</span>
-    ${s.msg && FINAL.includes(s.state) ? `<p class="msg">${esc(s.msg)}</p>` : ""}
+    ${msg && FINAL.includes(s.state) ? `<p class="msg">${esc(msg)}</p>` : ""}
     ${fresh ? `<button class="dismiss" data-act="seen" data-id="${esc(s.id)}">ठीक है, देख लिया</button>` : ""}
   </li>`;
 }
 
-/* ---------- file picker + compression ---------- */
-function fileBox() {
-  return `<div class="f"><span class="lab">File चुनें</span>
-    <label class="drop" for="fileIn">${I.up}<b>PDF या Photo (JPG / PNG) चुनें</b>
-      <span class="muted small">बड़ी Photo अपने आप छोटी हो जाती है, साफ़ पढ़ने लायक रहती है।</span>
-      <input type="file" id="fileIn" accept="application/pdf,image/jpeg,image/png,image/webp"></label>
-    <div class="picked" id="picked" role="status"></div>
-    <span class="errmsg" id="eFile">पहले File चुनें।</span></div>`;
-}
-async function toBitmap(file) {
-  if (window.createImageBitmap) {
-    try { return await createImageBitmap(file, { imageOrientation: "from-image" }); } catch {}
+/* ---------- एक-एक सवाल वाली Screen ---------- */
+function stepView(v) {
+  const f = S.f, steps = curSteps(), st = steps[f.i], a = f.ans;
+  if (!st) { f.i = 0; return stepView(v); }
+  const n = steps.length, pct = Math.round(((f.i + 1) / n) * 100);
+  const head = `<div class="ptop"><span>सवाल ${f.i + 1} / ${n}</span><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+  const title = `<h2 class="q">${esc(Q(st.q, a))}</h2>${st.hint ? `<p class="muted">${esc(Q(st.hint, a))}</p>` : ""}`;
+  let body = "", foot = "";
+  const nextBtn = `<button class="btn-3d navy" id="nextBtn" data-act="next" disabled>आगे बढ़ें</button>`;
+  const skip = st.optional ? `<button class="skip" data-act="skip">छोड़ें</button>` : "";
+
+  if (st.t === "choice") {
+    body = `<div class="opts3d${st.two ? " two" : ""}">${st.opts.map(o => `
+      <button class="opt3d" data-act="pick" data-v="${esc(o.v)}" aria-pressed="${a[st.id] === o.v}">
+        <span class="oi${o.g ? " g" : ""}">${I[o.ic] || ""}</span>
+        <div><b>${esc(o.l)}</b>${o.d ? `<span class="d">${esc(o.d)}</span>` : ""}</div></button>`).join("")}</div>`;
+  } else if (st.t === "select") {
+    const oth = st.other ? st.other(a) : null;
+    body = `<div class="fieldwrap"><select class="inp" id="in" aria-label="${esc(Q(st.q, a))}">${st.html(a)}</select>
+      ${oth ? `<div class="otherbox" id="otherBox" hidden><label class="lab" for="inO">${esc(oth.lab)}</label><input class="inp" id="inO" maxlength="90" placeholder="${esc(oth.ph)}" value="${esc(a[st.id + "_o"] || "")}"></div>` : ""}</div>`;
+    foot = nextBtn + skip;
+  } else if (st.t === "text") {
+    body = `<div class="fieldwrap"><input class="inp" id="in" maxlength="${st.max || 100}" placeholder="${esc(st.ph || "")}" value="${esc(a[st.id] || "")}" aria-label="${esc(Q(st.q, a))}"></div>`;
+    foot = nextBtn + skip;
+  } else if (st.t === "date") {
+    body = `<div class="fieldwrap"><input class="inp" type="date" id="in" max="${new Date().toISOString().slice(0, 10)}" value="${esc(a.ndate || "")}" aria-label="${esc(st.q)}"></div>`;
+    foot = nextBtn;
+  } else if (st.t === "file") {
+    body = `<label class="btn-3d filebtn" for="fileIn" tabindex="0">${I.up}File चुनें</label>
+      <input class="vh" type="file" id="fileIn" accept="application/pdf,image/jpeg,image/png,image/webp">
+      <div class="picked" id="picked" role="status"></div>`;
+    foot = nextBtn;
+  } else if (st.t === "yesno") {
+    const nm = (user() || {}).name || "";
+    body = `<p class="lead" style="margin-top:6px">आपका नाम: <b style="color:var(--navy)">${esc(nm)}</b></p>
+      <div class="opts3d">
+        <button class="opt3d" data-act="credit" data-v="1" aria-pressed="${a.credit === true}"><span class="oi g">${I.yes}</span><div><b>हाँ, मेरा नाम लिखें</b><span class="d">Post में आपका नाम दिखेगा</span></div></button>
+        <button class="opt3d" data-act="credit" data-v="0" aria-pressed="${a.credit === false}"><span class="oi">${I.no}</span><div><b>नहीं, नाम न लिखें</b><span class="d">नाम सिर्फ Admin को दिखेगा</span></div></button>
+      </div>`;
+  } else if (st.t === "review") {
+    const rows = steps.filter(s => s.id !== "review" && s.label).map(s => `<div class="row"><span class="k">${esc(s.label)}</span><span class="val">${esc(s.disp(a))}</span><button class="ch" data-act="jump" data-id="${esc(s.id)}">बदलें</button></div>`).join("");
+    body = `<div class="rv">${rows}</div>
+      <label class="lab" for="rvNote">Admin के लिए कोई बात <span class="muted" style="font-weight:400">(ज़रूरी नहीं)</span></label>
+      <textarea class="inp" id="rvNote" maxlength="300" placeholder="जैसे: 2 Pages धुंधले हैं">${esc(a.note || "")}</textarea>
+      <input class="hp" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="prog" id="prog"><div class="bar"><i id="barI"></i></div><span class="small muted" id="progT"></span></div>`;
+    foot = `<button class="btn-3d green" id="sendBtn" data-act="send">Admin को भेजें</button>`;
   }
+  v.innerHTML = `<div class="step">${head}${title}${body}</div>${foot ? `<div class="actions"><div class="actions-in">${foot}</div></div>` : ""}`;
+
+  /* inputs को जोड़ें */
+  const el = $("#in");
+  if (st.t === "select" && el) {
+    if (a[st.id]) el.value = a[st.id];
+    const box = $("#otherBox"); const showBox = () => { if (box) box.hidden = el.value !== "__other"; };
+    showBox();
+    el.addEventListener("change", () => {
+      showBox(); refreshNext();
+      if (el.value && el.value !== "__other") setTimeout(() => { if (S.screen === "flow" && curSteps()[S.f.i] === st && !st.check(S.f.ans)) next(); }, 320);
+      else if (el.value === "__other") { const oi = $("#inO"); if (oi) oi.focus(); }
+    });
+    const oi = $("#inO"); if (oi) oi.addEventListener("input", refreshNext);
+  }
+  if ((st.t === "text" || st.t === "date") && el) {
+    el.addEventListener("input", refreshNext); el.addEventListener("change", refreshNext);
+    if (st.t === "text") el.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); const b = $("#nextBtn"); if (b && !b.disabled) next(); } });
+  }
+  if (st.t === "file") {
+    $("#fileIn").addEventListener("change", onPick);
+    if (f.file) showPicked();
+  }
+  if (st.t === "review") { const nt = $("#rvNote"); nt.addEventListener("input", () => { a.note = nt.value; }); }
+  if (st.t === "choice" && st.opts.length > 2 && !matchMedia("(prefers-reduced-motion:reduce)").matches) { /* animation CSS handles it */ }
+  refreshNext();
+}
+
+/* ---------- file picker + compression ---------- */
+async function toBitmap(file) {
+  if (window.createImageBitmap) { try { return await createImageBitmap(file, { imageOrientation: "from-image" }); } catch {} }
   return await new Promise((res, rej) => {
     const url = URL.createObjectURL(file), img = new Image();
     img.onload = () => { res(img); URL.revokeObjectURL(url); };
@@ -398,9 +669,17 @@ async function compressImage(file) {
   if (file.type === "image/jpeg" && best.size >= file.size) return file;
   return best;
 }
+function showPicked() {
+  const f = S.f, box = $("#picked"); if (!box || !f.file) return;
+  const d = f.file; box.className = "picked show";
+  box.textContent = d.after < d.before ? `✔ ${d.orig} · ${fmtSize(d.before)} से ${fmtSize(d.after)} हो गई (Quality बनी रही)` : `✔ ${d.orig} · ${fmtSize(d.before)}`;
+  if (d.isImg) { const im = document.createElement("img"); im.className = "thumb"; im.alt = "चुनी हुई Photo"; im.src = URL.createObjectURL(d.blob); box.after(im); }
+  const b = $("#nextBtn"); if (b) { b.disabled = false; }
+}
 async function onPick(ev) {
-  const f = ev.target.files && ev.target.files[0]; const box = $("#picked");
-  S.draft.file = null; box.className = "picked show"; box.textContent = "File देख रहे हैं…";
+  const f = ev.target.files && ev.target.files[0]; const box = $("#picked"); const S_ = S.f;
+  S_.file = null; S_.uploaded = null; document.querySelectorAll(".thumb").forEach(t => t.remove());
+  box.className = "picked show"; box.textContent = "File देख रहे हैं…"; const nb = $("#nextBtn"); if (nb) nb.disabled = true;
   if (!f) { box.className = "picked"; return; }
   const isPdf = f.type === "application/pdf" || /\.pdf$/i.test(f.name);
   const isImg = /^image\/(jpeg|png|webp)$/.test(f.type);
@@ -411,196 +690,21 @@ async function onPick(ev) {
         box.textContent = `यह PDF ${fmtSize(f.size)} की है। ${CONFIG.MAX_PDF_MB} MB तक की PDF चलती है। PDF को छोटा करें, या Pages की Photo (JPG) भेजें — Photo अपने आप छोटी हो जाती है।`;
         return;
       }
-      S.draft.file = { blob: f, name: f.name.replace(/[^\w.\- ]+/g, "_").slice(0, 80) || "file.pdf", before: f.size, after: f.size };
-      box.textContent = `✔ ${f.name} · ${fmtSize(f.size)}`;
+      S_.file = { blob: f, orig: f.name, name: f.name.replace(/[^\w.\- ]+/g, "_").slice(0, 80) || "file.pdf", before: f.size, after: f.size, isImg: false };
     } else if (isImg) {
       const out = await compressImage(f);
       const nm = (f.name.replace(/\.[^.]+$/, "").replace(/[^\w\- ]+/g, "_").slice(0, 60) || "photo") + ".jpg";
-      S.draft.file = { blob: out, name: nm, before: f.size, after: out.size };
-      box.textContent = out.size < f.size
-        ? `✔ ${f.name} · ${fmtSize(f.size)} से ${fmtSize(out.size)} हो गई (Quality बनी रही)`
-        : `✔ ${f.name} · ${fmtSize(f.size)}`;
+      S_.file = { blob: out, orig: f.name, name: nm, before: f.size, after: out.size, isImg: true };
     } else {
       box.className = "picked show bad";
       box.textContent = "सिर्फ PDF, JPG या PNG चलता है। (iPhone की HEIC Photo को JPG में बदलकर भेजें।)";
+      return;
     }
+    showPicked();
   } catch {
     box.className = "picked show bad";
     box.textContent = "यह File खुल नहीं पाई। दूसरी File Try करें।";
   }
-}
-
-/* ---------- forms ---------- */
-function creditBox() {
-  return `<label class="check"><input type="checkbox" id="fCredit"><span>Post में मेरा नाम भी लिखें <span class="hint" style="display:inline">(ज़रूरी नहीं — ना चुनें तो नाम सिर्फ Admin को दिखेगा)</span></span></label>`;
-}
-function errShow(id, on, msg) { const e = $("#" + id); if (!e) return; if (msg) e.textContent = msg; e.classList.toggle("show", !!on); }
-function fieldErr(input, on) { input.classList.toggle("err", !!on); }
-
-async function noticeForm(v) {
-  v.innerHTML = `<h2>Notice भेजें</h2><p class="muted">चुनना आसान है: कौन सी University या College, Notice का नाम, और File।</p><p class="muted">एक Second…</p>`;
-  const unis = await loadUnis();
-  if (S.screen !== "notice") return;
-  v.innerHTML = `
-    <h2>Notice भेजें</h2>
-    <p class="muted">Notice किस College या University का है?</p>
-    <label class="f"><span class="lab">College / University</span>
-      <select class="inp" id="fUni">${uniOptions(unis, false)}</select>
-      <span class="errmsg" id="eUni">एक Option चुनें।</span></label>
-    <label class="f" id="otherWrap" hidden><span class="lab">उसका पूरा नाम</span>
-      <input class="inp" id="fUniOther" maxlength="90" placeholder="जैसे: Raj Rishi College, Alwar">
-      <span class="errmsg" id="eUniOther">नाम लिखें।</span></label>
-    <label class="f"><span class="lab">Notice का नाम</span>
-      <input class="inp" id="fTitle" maxlength="150" placeholder="जैसे: B.A. 3rd Sem Exam form की अंतिम तिथि बढ़ी">
-      <span class="hint">Notice का सारांश एक Line में।</span>
-      <span class="errmsg" id="eTitle">Notice का नाम लिखें (कम से कम 8 अक्षर)।</span></label>
-    <label class="f"><span class="lab">Notice की तारीख़ <span class="muted" style="font-weight:400">(पता हो तो)</span></span>
-      <input class="inp" type="date" id="fDate"></label>
-    ${fileBox()}
-    ${creditBox()}
-    <input class="hp" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <div class="prog" id="prog"><div class="bar"><i id="barI"></i></div><span class="small muted" id="progT"></span></div>
-    <div class="actions"><div class="actions-in"><button class="btn" id="sendBtn" data-act="sendNotice">Admin को भेजें</button></div></div>`;
-  $("#fDate").max = new Date().toISOString().slice(0, 10);
-  $("#fUni").addEventListener("change", e => { $("#otherWrap").hidden = e.target.value !== "__other"; });
-  $("#fileIn").addEventListener("change", onPick);
-}
-
-/* Har Material type ke liye alag fields.
-   sem/uni: "req" = zaroori, "opt" = zaroori nahi (blank = General)
-   year: null = field hi nahi dikhega */
-const MFORM = {
-  "PYQ": {
-    intro: "पुराने Question Paper की साफ़, पूरी File भेजें। Exam का साल और Paper का नाम सही लिखें।",
-    subjReq: true, titleLab: "Paper का नाम", titlePh: "जैसे: Paper 2 — मध्यकालीन काव्य",
-    year: { lab: "Exam का साल", req: true }, sem: "req", uni: "req",
-    extra: { lab: "Exam कैसा था?", opts: ["Regular Exam", "Back Paper / Improvement"] },
-    notePh: "जैसे: 2 Pages धुंधले हैं"
-  },
-  "Book": {
-    intro: "Book का नाम और Author लिख दें, ताकि दूसरे Students आसानी से ढूँढ सकें।",
-    subjReq: true, titleLab: "Book का नाम", titlePh: "जैसे: हिंदी साहित्य का इतिहास",
-    year: { lab: "Edition / छपने का साल", req: false, na: "पता नहीं" }, sem: "opt", uni: "opt",
-    extra: { lab: "Author / Publisher", text: true, ph: "जैसे: आचार्य रामचंद्र शुक्ल" },
-    notePh: "जैसे: यह पूरी Book का Chapter 3 है"
-  },
-  "Notes": {
-    intro: "Notes की साफ़ Photo या PDF भेजें। Chapter या Topic का नाम ज़रूर लिखें।",
-    subjReq: true, titleLab: "Chapter / Topic का नाम", titlePh: "जैसे: Unit 3 — भक्तिकाल",
-    year: null, sem: "opt", uni: "opt",
-    extra: { lab: "Notes किस रूप में हैं?", opts: ["Handwritten (हाथ से लिखे)", "Typed / Printed"] },
-    notePh: "जैसे: Teacher के Notes हैं, या खुद बनाए हैं"
-  },
-  "Model Paper": {
-    intro: "Model Paper या Practice Paper भेजें।",
-    subjReq: true, titleLab: "Paper का नाम", titlePh: "जैसे: Paper 1 — आधुनिक काव्य (Model Set 2)",
-    year: { lab: "किस साल / Session का", req: false, na: "पता नहीं" }, sem: "req", uni: "req",
-    extra: null, notePh: "जैसे: किसने बनाया है, Answer के साथ है या नहीं"
-  },
-  "Syllabus": {
-    intro: "Syllabus की File भेजें। कौन सा Course और कौन सा Session है, यह बताएँ।",
-    subjReq: false, titleLab: "Syllabus किसका है?", titlePh: "जैसे: B.A. Hindi 3rd Sem Syllabus",
-    year: { lab: "Session / साल", req: false, na: "पता नहीं" }, sem: "req", uni: "req",
-    extra: null, notePh: "जैसे: New NEP Syllabus है"
-  },
-  "Other": {
-    intro: "बताइए कि यह क्या है, ताकि Admin सही जगह Post कर सकें।",
-    subjReq: false, titleLab: "File का नाम", titlePh: "जैसे: Assignment — Unit 2",
-    year: null, sem: "opt", uni: "opt", extra: null, notePh: "File के बारे में कोई भी बात"
-  }
-};
-
-function dynFields(type, unis, years) {
-  const c = MFORM[type];
-  if (!c) return `<div class="notice-box">ऊपर से चुनें कि आप क्या भेज रहे हैं — फिर उसी के हिसाब से सवाल दिखेंगे।</div>`;
-  const opt = t => t === "opt" ? ` <span class="muted" style="font-weight:400">(ज़रूरी नहीं)</span>` : "";
-  const yearBlock = c.year ? `
-    <label class="f"><span class="lab">${c.year.lab}${c.year.req ? "" : opt("opt")}</span>
-      <select class="inp" id="mYear">${c.year.req ? `<option value="">चुनें…</option>` : `<option value="NA">${c.year.na}</option>`}${years.map(y => `<option>${y}</option>`).join("")}</select>
-      <span class="errmsg" id="eYear">साल चुनें।</span></label>` : "";
-  let extraBlock = "";
-  if (c.extra) {
-    extraBlock = c.extra.text
-      ? `<label class="f"><span class="lab">${c.extra.lab}${opt("opt")}</span><input class="inp" id="mExtra" maxlength="80" placeholder="${esc(c.extra.ph)}"></label>`
-      : `<label class="f"><span class="lab">${c.extra.lab}${opt("opt")}</span><select class="inp" id="mExtra"><option value="">चुनें…</option>${c.extra.opts.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>`;
-  }
-  return `
-    <p class="muted">${c.intro}</p>
-    <label class="f"><span class="lab">Subject का नाम${c.subjReq ? "" : opt("opt")}</span>
-      <input class="inp" id="mSubject" list="subjList" maxlength="60" placeholder="जैसे: Hindi, Physics, Commerce">
-      <datalist id="subjList">${SUBJECTS.map(x => `<option value="${esc(x)}">`).join("")}</datalist>
-      <span class="errmsg" id="eSubject">Subject लिखें।</span></label>
-    <label class="f"><span class="lab">${c.titleLab}</span>
-      <input class="inp" id="mPaper" maxlength="100" placeholder="${esc(c.titlePh)}">
-      <span class="errmsg" id="ePaper">${c.titleLab} लिखें।</span></label>
-    ${yearBlock}
-    ${extraBlock}
-    <div class="f"><span class="lab">किस Class के लिए है? <span class="muted" style="font-weight:400">(एक या ज़्यादा)</span></span>
-      <div class="chips" id="classChips">${CLASSES.map(x => `<button type="button" class="chip" aria-pressed="false" data-act="chip" data-v="${esc(x)}">${esc(x)}</button>`).join("")}
-        <button type="button" class="chip" aria-pressed="false" data-act="chipOther">और…</button></div>
-      <input class="inp" id="mClassOther" maxlength="30" placeholder="Class का नाम लिखें" hidden style="margin-top:10px">
-      <span class="errmsg" id="eClass">कम से कम एक Class चुनें।</span></div>
-    <label class="f"><span class="lab">Semester या Year${opt(c.sem)}</span>
-      <select class="inp" id="mSem"><option value="">चुनें…</option>${SEMS.map(x => `<option>${esc(x)}</option>`).join("")}</select>
-      <span class="errmsg" id="eSem">एक Option चुनें।</span></label>
-    <label class="f"><span class="lab">किस University से जुड़ा है?${opt(c.uni)}</span>
-      <select class="inp" id="mUni">${uniOptions(unis, c.uni === "opt")}</select>
-      <span class="errmsg" id="eUni">एक Option चुनें।</span></label>
-    <label class="f" id="otherWrap" hidden><span class="lab">उसका नाम</span>
-      <input class="inp" id="mUniOther" maxlength="90" placeholder="University का नाम"><span class="errmsg" id="eUniOther">नाम लिखें।</span></label>
-    <label class="f"><span class="lab">Admin के लिए कोई बात <span class="muted" style="font-weight:400">(ज़रूरी नहीं)</span></span>
-      <textarea class="inp" id="mNote" maxlength="300" placeholder="${esc(c.notePh)}"></textarea></label>`;
-}
-function snapDyn() {
-  const o = {};
-  document.querySelectorAll("#dyn input[id], #dyn select[id], #dyn textarea[id]").forEach(e => { o[e.id] = e.value; });
-  o.__classes = [...document.querySelectorAll("#classChips .chip[data-v][aria-pressed=true]")].map(b => b.dataset.v);
-  const ob = document.querySelector("#classChips .chip[data-act=chipOther]");
-  o.__otherOn = !!(ob && ob.getAttribute("aria-pressed") === "true");
-  return o;
-}
-function restoreDyn(o, type) {
-  Object.keys(o).forEach(k => { if (k.startsWith("__")) return; const e = document.getElementById(k); if (e && o[k]) e.value = o[k]; });
-  document.querySelectorAll("#classChips .chip[data-v]").forEach(b => { if ((o.__classes || []).includes(b.dataset.v)) b.setAttribute("aria-pressed", "true"); });
-  if (o.__otherOn) { const ob = document.querySelector("#classChips .chip[data-act=chipOther]"); if (ob) ob.setAttribute("aria-pressed", "true"); const i = $("#mClassOther"); if (i) i.hidden = false; }
-  const c = MFORM[type], uni = $("#mUni");
-  if (c && uni) {
-    if (!uni.value && c.uni === "opt") uni.value = "__general";
-    uni.addEventListener("change", e => { $("#otherWrap").hidden = e.target.value !== "__other"; });
-    $("#otherWrap").hidden = uni.value !== "__other";
-  }
-}
-
-async function materialForm(v) {
-  v.innerHTML = `<h2>Study Material भेजें</h2><p class="muted">एक Second…</p>`;
-  const unis = await loadUnis();
-  if (S.screen !== "material") return;
-  const yr = new Date().getFullYear();
-  const years = []; for (let y = yr; y >= 2005; y--) years.push(y);
-  v.innerHTML = `
-    <h2>Study Material भेजें</h2>
-    <p class="muted">पहले बताइए कि क्या भेज रहे हैं — फिर उसी के हिसाब से सवाल आएँगे।</p>
-    <label class="f"><span class="lab">यह क्या है?</span>
-      <select class="inp" id="mType"><option value="">चुनें…</option>${MATERIAL_TYPES.map(t => `<option value="${esc(t[0])}">${esc(t[1])}</option>`).join("")}</select>
-      <span class="errmsg" id="eType">एक Option चुनें।</span></label>
-    <label class="f" id="typeOtherWrap" hidden><span class="lab">कैसा Material?</span>
-      <input class="inp" id="mTypeOther" maxlength="40" placeholder="जैसे: Assignment"><span class="errmsg" id="eTypeOther">लिखें।</span></label>
-    <div id="dyn">${dynFields("", unis, years)}</div>
-    <div id="tail" hidden>
-      ${fileBox()}
-      ${creditBox()}
-    </div>
-    <input class="hp" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <div class="prog" id="prog"><div class="bar"><i id="barI"></i></div><span class="small muted" id="progT"></span></div>
-    <div class="actions"><div class="actions-in"><button class="btn" id="sendBtn" data-act="sendMaterial">Admin को भेजें</button></div></div>`;
-  $("#mType").addEventListener("change", e => {
-    const t = e.target.value, snap = snapDyn();
-    $("#typeOtherWrap").hidden = t !== "Other";
-    $("#dyn").innerHTML = dynFields(t, unis, years);
-    restoreDyn(snap, t);
-    $("#tail").hidden = !t;
-  });
-  $("#fileIn").addEventListener("change", onPick);
 }
 
 /* ---------- submit ---------- */
@@ -628,105 +732,91 @@ function uploadToCloudinary(file, onProgress) {
 }
 function throttleOk() {
   const t = store.get("ug_sent", []).filter(x => Date.now() - x < 86400000);
-  if (t.length && Date.now() - t[t.length - 1] < 15000) { toast("थोड़ा रुक कर दोबारा भेजें।", true); return false; }
+  if (t.length && Date.now() - t[t.length - 1] < 15000) { toast("थोड़ा रुक कर दोबारा भेजें।", true); return false; }
   if (t.length >= 12) { toast("आज के लिए Limit पूरी हो गई। कल फिर भेजें।", true); return false; }
   return true;
 }
-async function submit(kind, record, title) {
+async function isBlocked() {
+  try {
+    const r = await fetch(`${DB}/contrib/blocked/${deviceId()}.json`, { cache: "no-store" });
+    if (!r.ok) return false;
+    return !!(await r.json());
+  } catch { return false; }
+}
+function buildRecord() {
+  const f = S.f, a = f.ans, u = user() || {};
+  const uniId = a.uni || "__general";
+  const uni = uniId === "__other" ? { id: "__other", name: norm(a.uni_o) } : uniId === "__general" ? { id: "__general", name: GENERAL } : { id: uniId, name: a.uni_n };
+  const base = { name: u.name, college: "-", credit: !!a.credit, ts: Date.now(), uid: deviceId(), uni_id: uni.id, uni_name: uni.name };
+  if (f.kind === "notice") {
+    const title = norm(a.title);
+    return { rec: Object.assign(base, { kind: "notice", uni_kind: a.nk, title, notice_date: a.ndate || "" }), title };
+  }
+  const mtype = a.mt === "Other" ? norm(a.otitle) : a.mt;
+  const cls = getName(a, "cls");
+  const subject = a.subj ? getName(a, "subj") : GENERAL;
+  const sem = a.sem || GENERAL;
+  const year = a.mt === "PYQ" ? String(a.year) : "NA";
+  const unit = a.mt === "Notes" ? norm(a.unit) : "";
+  const author = a.mt === "Book" ? norm(a.author) : "";
+  let paper;
+  switch (a.mt) {
+    case "PYQ": paper = `${subject} ${year}`; break;
+    case "Notes": paper = unit; break;
+    case "Model Paper": paper = `${subject} Model Paper`; break;
+    case "Syllabus": paper = `${subject} Syllabus`; break;
+    case "Book": paper = norm(a.btitle); break;
+    default: paper = norm(a.otitle);
+  }
+  const note = [author ? `Author/Publisher: ${author}` : "", unit ? `Unit: ${unit}` : "", norm(a.note)].filter(Boolean).join(" | ");
+  const title = `${mtype} · ${cls} · ${paper}`;
+  return { rec: Object.assign(base, { kind: "material", mtype, subject, paper, year, classes: [cls], class: cls, sem, unit, uni_id: uni.id, uni_name: uni.name, extra: author, note }), title };
+}
+async function send() {
   if (S.busy) return;
+  const f = S.f, steps = curSteps(), a = f.ans;
+  const bad = steps.findIndex(s => s.id !== "review" && s.check(a));
+  if (bad >= 0) { f.i = bad; f.r2 = true; render(); toast("एक सवाल बाकी है।", true); return; }
+  if ($("#fHp") && $("#fHp").value) return;
   if (CONFIG.CLOUDINARY_CLOUD === "YOUR_CLOUD_NAME") { toast("यह Page अभी Set नहीं हुआ (Admin को बताएँ)।", true); return; }
   if (!throttleOk()) return;
   S.busy = true; const btn = $("#sendBtn"); btn.disabled = true; btn.textContent = "भेज रहे हैं…";
   try {
-    const d = S.draft;
-    if (!d.uploaded || d.uploadedFor !== d.file.blob) {
+    if (await isBlocked()) { S.busy = false; btn.disabled = false; btn.textContent = "Admin को भेजें"; toast("आपका भेजना रोक दिया गया है। कोई ग़लती लगे तो Admin से संपर्क करें।", true); return; }
+    if (!f.uploaded || f.uploadedFor !== f.file.blob) {
       setProg(3, "File Upload हो रही है…");
-      const j = await uploadToCloudinary(d.file, p => setProg(3 + Math.round(p * 85), `File Upload हो रही है… ${Math.round(p * 100)}%`));
-      d.uploaded = j; d.uploadedFor = d.file.blob;
+      const j = await uploadToCloudinary(f.file, p => setProg(3 + Math.round(p * 85), `File Upload हो रही है… ${Math.round(p * 100)}%`));
+      f.uploaded = j; f.uploadedFor = f.file.blob;
     }
     setProg(92, "Admin को भेज रहे हैं…");
-    const id = newId();
-    record.file = { url: d.uploaded.secure_url, name: d.file.name, size: d.file.after };
-    const r = await fetch(`${DB}/contrib/inbox/${id}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(record) });
+    const id = newId(), { rec, title } = buildRecord();
+    rec.file = { url: f.uploaded.secure_url, name: f.file.name, size: f.file.after };
+    const r = await fetch(`${DB}/contrib/inbox/${id}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(rec) });
     if (!r.ok) throw new Error("db");
     setProg(100, "हो गया");
-    const list = subs(); list.unshift({ id, kind, title, state: "sent", msg: "", seen: true, ts: Date.now() });
+    const list = subs(); list.unshift({ id, kind: rec.kind, title, state: "sent", msg: "", seen: true, ts: Date.now() });
     store.set("ug_subs", list.slice(0, 30));
     const sent = store.get("ug_sent", []).filter(x => Date.now() - x < 86400000); sent.push(Date.now()); store.set("ug_sent", sent);
-    S.lastCode = id.slice(0, 6).toUpperCase(); S.kind = kind;
+    S.lastCode = id.slice(0, 6).toUpperCase(); S.kind = rec.kind;
     S.busy = false; go("done");
   } catch (e) {
     S.busy = false; btn.disabled = false; btn.textContent = "दोबारा भेजें";
     toast(e.message === "network" ? "Internet Check करें, फिर दोबारा भेजें।" : "भेजने में दिक्कत आई। दोबारा Try करें।", true);
   }
 }
-function need(id, cond, errId) { const el = $("#" + id); const bad = !cond; if (el) fieldErr(el, bad); errShow(errId, bad); return !bad; }
-function uniValue(selId, otherId) {
-  const sel = $("#" + selId), v = sel.value;
-  if (v === "__other") return { id: "__other", name: $("#" + otherId).value.trim() };
-  if (v === "__general") return { id: "__general", name: "सभी / General" };
-  const o = sel.options[sel.selectedIndex]; return { id: v, name: o ? o.textContent : "" };
-}
-function sendNotice() {
-  const u = user(), uni = uniValue("fUni", "fUniOther");
-  const title = $("#fTitle").value.trim(); let ok = true;
-  ok = need("fUni", !!uni.id, "eUni") && ok;
-  if (uni.id === "__other") ok = need("fUniOther", uni.name.length >= 3, "eUniOther") && ok;
-  ok = need("fTitle", title.length >= 8, "eTitle") && ok;
-  const hasFile = !!(S.draft.file); errShow("eFile", !hasFile); ok = ok && hasFile;
-  if (!ok) { const e = document.querySelector(".err, .errmsg.show"); if (e) e.scrollIntoView({ block: "center" }); return; }
-  if ($("#fHp").value) return;
-  submit("notice", {
-    kind: "notice", name: u.name, college: u.college, credit: $("#fCredit").checked, ts: Date.now(),
-    uni_id: uni.id, uni_name: uni.name, title, notice_date: $("#fDate").value || "",
-  }, title);
-}
-function sendMaterial() {
-  const type = $("#mType").value, typeOther = $("#mTypeOther").value.trim();
-  const c = MFORM[type];
-  if (!c) { errShow("eType", true); $("#mType").classList.add("err"); $("#mType").scrollIntoView({ block: "center" }); return; }
-  const u = user(), uni = uniValue("mUni", "mUniOther");
-  const subject = $("#mSubject").value.trim(), paper = $("#mPaper").value.trim();
-  const yEl = $("#mYear"), year = yEl ? yEl.value : "NA", sem = $("#mSem").value;
-  const eEl = $("#mExtra"), extra = eEl ? eEl.value.trim() : "";
-  const classes = [...document.querySelectorAll("#classChips .chip[data-v][aria-pressed=true]")].map(b => b.dataset.v);
-  const other = $("#mClassOther"); if (!other.hidden && other.value.trim()) classes.push(other.value.trim());
-  let ok = true;
-  errShow("eType", false);
-  if (type === "Other") ok = need("mTypeOther", typeOther.length >= 2, "eTypeOther") && ok;
-  if (c.subjReq) ok = need("mSubject", subject.length >= 2, "eSubject") && ok;
-  ok = need("mPaper", paper.length >= 3, "ePaper") && ok;
-  if (c.year && c.year.req) ok = need("mYear", !!year, "eYear") && ok;
-  errShow("eClass", !classes.length); ok = ok && classes.length > 0;
-  if (c.sem === "req") ok = need("mSem", !!sem, "eSem") && ok;
-  if (c.uni === "req") ok = need("mUni", !!uni.id && uni.id !== "__general", "eUni") && ok;
-  if (uni.id === "__other") ok = need("mUniOther", uni.name.length >= 3, "eUniOther") && ok;
-  const hasFile = !!(S.draft.file); errShow("eFile", !hasFile); ok = ok && hasFile;
-  if (!ok) { const e = document.querySelector(".err, .errmsg.show"); if (e) e.scrollIntoView({ block: "center" }); return; }
-  if ($("#fHp").value) return;
-  const mtype = type === "Other" ? typeOther : type;
-  const uniFinal = uni.id ? uni : { id: "__general", name: "सभी / General" };
-  const userNote = $("#mNote").value.trim();
-  const note = [extra ? `${c.extra.lab} ${extra}` : "", userNote].filter(Boolean).join(" | ");
-  submit("material", {
-    kind: "material", name: u.name, college: u.college, credit: $("#fCredit").checked, ts: Date.now(),
-    mtype, subject: subject || "सभी / General", paper, year: year || "NA", classes, sem: sem || "सभी / General",
-    uni_id: uniFinal.id, uni_name: uniFinal.name, extra, note,
-  }, `${mtype} · ${subject || paper}${subject ? " · " + paper : ""}`);
-}
 
 function done(v) {
   v.innerHTML = `
-    <h2>धन्यवाद, File मिल गई</h2>
-    <p class="lead">Admin इसे देखेंगे। जवाब इसी Page पर दिखेगा — Telegram की ज़रूरत नहीं।</p>
+    <h2>बहुत-बहुत धन्यवाद! 🙏</h2>
+    <p class="lead">आपकी File Admin तक पहुँच गई है। Admin इसे देखेंगे और जवाब इसी Page पर दिखेगा।</p>
     <div class="slip"><div class="stamp">मिल<br>गया</div>
       <span class="muted small">आपका Reference Code</span>
       <div class="code">${esc(S.lastCode)}</div>
-      <span class="muted small">ज़रूरी नहीं, बस याद के लिए</span></div>
+      <span class="muted small">ज़रूरी नहीं, बस याद के लिए</span></div>
     <p class="small muted">कुछ घंटे बाद इस Page को दोबारा खोलिए — Approve या Reject होने पर यहीं बताएंगे।</p>
-    <div class="actions"><div class="actions-in">
-      <button class="btn" data-act="go" data-to="${S.kind === "notice" ? "notice" : "material"}">एक और ${S.kind === "notice" ? "Notice" : "Material"} भेजें</button>
-      <button class="btn ghost" data-act="home">मेरे Page पर जाएँ</button></div></div>`;
+    <div class="actions"><div class="actions-in" style="display:grid;gap:18px">
+      <button class="btn-3d navy" data-act="flow" data-to="${S.kind === "notice" ? "notice" : "material"}">एक और ${S.kind === "notice" ? "Notice" : "Material"} भेजें</button>
+      <button class="btn-3d soft" data-act="home">मेरे Page पर जाएँ</button></div></div>`;
 }
 
 /* ---------- status polling ---------- */
@@ -754,25 +844,23 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden && S.
 document.addEventListener("click", ev => {
   const b = ev.target.closest("[data-act]"); if (!b) return;
   const a = b.dataset.act;
-  if (a === "start") return go("details");
-  if (a === "saveDetails") {
-    const n = $("#dName").value.trim().replace(/\s+/g, " "), c = $("#dCollege").value.trim().replace(/\s+/g, " ");
-    const okN = need("dName", n.length >= 3, "eName");
-    const okC = need("dCollege", c.length >= 3, "eCollege");
-    if (!okN || !okC) return;
-    store.set("ug_user", { name: n, college: c }); return go("home");
+  if (a === "landingNext") return go(user() ? "home" : "welcome");
+  if (a === "saveName") {
+    const n = norm($("#dName").value);
+    if (n.length < 3) { $("#dName").classList.add("err"); $("#eName").textContent = "अपना पूरा नाम लिखें।"; $("#dName").focus(); return; }
+    store.set("ug_user", { name: n, college: "" }); return go("home");
   }
-  if (a === "editDetails") return go("details");
-  if (a === "go") return go(b.dataset.to);
+  if (a === "editName") return go("welcome");
+  if (a === "flow") return go("flow", b.dataset.to);
   if (a === "home") return go("home");
-  if (a === "chip") { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true"); return; }
-  if (a === "chipOther") {
-    const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on);
-    const i = $("#mClassOther"); i.hidden = !on; if (on) i.focus(); return;
-  }
+  if (a === "pick") { const st = curSteps()[S.f.i]; if (S.f.ans[st.id] !== undefined && S.f.ans[st.id] !== b.dataset.v && st.id === "nk") { delete S.f.ans.uni; delete S.f.ans.uni_n; delete S.f.ans.uni_o; }
+    S.f.ans[st.id] = b.dataset.v; if (st.id === "mt" || st.id === "nk") S.f.r2 = false; return next(); }
+  if (a === "credit") { S.f.ans.credit = b.dataset.v === "1"; return next(); }
+  if (a === "next") return next();
+  if (a === "skip") { const st = curSteps()[S.f.i]; const id = st.id; S.f.ans[id] = ""; delete S.f.ans[id + "_n"]; delete S.f.ans[id + "_o"]; return next(); }
+  if (a === "jump") { const steps = curSteps(); const k = steps.findIndex(s => s.id === b.dataset.id); if (k >= 0) { S.f.i = k; S.f.r2 = true; render(); window.scrollTo(0, 0); } return; }
+  if (a === "send") return send();
   if (a === "seen") { const l = subs(); const s = l.find(x => x.id === b.dataset.id); if (s) { s.seen = true; store.set("ug_subs", l); render(); } return; }
-  if (a === "sendNotice") return sendNotice();
-  if (a === "sendMaterial") return sendMaterial();
 });
 
 /* ---------- start ---------- */
