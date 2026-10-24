@@ -747,10 +747,10 @@ function buildRecord() {
   const f = S.f, a = f.ans, u = user() || {};
   const uniId = a.uni || "__general";
   const uni = uniId === "__other" ? { id: "__other", name: norm(a.uni_o) } : uniId === "__general" ? { id: "__general", name: GENERAL } : { id: uniId, name: a.uni_n };
-  const base = { name: u.name, college: "N/A", credit: !!a.credit, ts: Date.now(), uid: deviceId(), uni_id: uni.id, uni_name: uni.name };
+  const base = { name: u.name, college: "UG-" + deviceId(), credit: !!a.credit, ts: Date.now(), uni_id: uni.id, uni_name: uni.name };
   if (f.kind === "notice") {
     const title = norm(a.title);
-    return { rec: Object.assign(base, { kind: "notice", uni_kind: a.nk, title, notice_date: a.ndate || "" }), title };
+    return { rec: Object.assign(base, { kind: "notice", title, notice_date: a.ndate || "" }), title };
   }
   const mtype = a.mt === "Other" ? norm(a.otitle) : a.mt;
   const cls = getName(a, "cls");
@@ -770,7 +770,7 @@ function buildRecord() {
   }
   const note = [author ? `Author/Publisher: ${author}` : "", unit ? `Unit: ${unit}` : "", norm(a.note)].filter(Boolean).join(" | ");
   const title = [mtype, subject !== GENERAL ? subject : paper, cls, year !== "NA" ? year : ""].filter(Boolean).join(" · ");
-  return { rec: Object.assign(base, { kind: "material", mtype, subject, paper, year, classes: [cls], class: cls, sem, unit, uni_id: uni.id, uni_name: uni.name, extra: author, note }), title };
+  return { rec: Object.assign(base, { kind: "material", mtype, subject, paper, year, classes: [cls], sem, uni_id: uni.id, uni_name: uni.name, extra: author, note: note.slice(0, 200) }), title };
 }
 async function send() {
   if (S.busy) return;
@@ -792,7 +792,7 @@ async function send() {
     const id = newId(), { rec, title } = buildRecord();
     rec.file = { url: f.uploaded.secure_url, name: f.file.name, size: f.file.after };
     const r = await fetch(`${DB}/contrib/inbox/${id}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(rec) });
-    if (!r.ok) throw new Error("db");
+    if (!r.ok) throw new Error("db" + r.status);
     setProg(100, "हो गया");
     const list = subs(); list.unshift({ id, kind: rec.kind, title, state: "sent", msg: "", seen: true, ts: Date.now() });
     store.set("ug_subs", list.slice(0, 30));
@@ -801,7 +801,7 @@ async function send() {
     S.busy = false; go("done");
   } catch (e) {
     S.busy = false; btn.disabled = false; btn.textContent = "दोबारा भेजें";
-    toast(e.message === "network" ? "Internet Check करें, फिर दोबारा भेजें।" : "भेजने में दिक्कत आई। दोबारा Try करें।", true);
+    toast(e.message === "network" ? "Internet Check करें, फिर दोबारा भेजें।" : "भेजने में दिक्कत आई। दोबारा Try करें। (कोड: " + String(e.message).slice(0, 40) + ")", true);
   }
 }
 
