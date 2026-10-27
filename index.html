@@ -2,6 +2,9 @@
 <html lang="hi">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.firebasedatabase.app https://api.cloudinary.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>try{if(top!==self){document.documentElement.style.display="none";top.location=self.location}}catch(e){document.documentElement.style.display="none"}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>University Gyaan — Notice और Study Material भेजें</title>
 <link rel="icon" type="image/png" href="favicon.png">
@@ -199,6 +202,15 @@ textarea.inp{min-height:90px;resize:vertical}
   @keyframes pop{from{opacity:0;transform:translateY(22px) scale(.94)}to{opacity:1;transform:none}}
 }
 @media (prefers-reduced-motion:reduce){.float,.pill,.logo3d,.blob{animation:none}}
+
+/* ---------- hamare saare links (pehle aur aakhri page par) ---------- */
+.links{position:relative;z-index:1;width:100%;max-width:340px;display:grid;gap:10px;margin:28px auto 4px;text-align:left}
+.links.wide{max-width:none;margin:26px 0 0}
+.links h3{margin:0 0 2px;font-size:16px;font-weight:600;color:var(--muted);text-align:center}
+.lk{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--card);border:2px solid var(--line);color:var(--navy);text-decoration:none;font-weight:600;box-shadow:0 3px 0 #C9D0E6;-webkit-tap-highlight-color:transparent}
+.lk:active{transform:translateY(2px);box-shadow:none}
+.lk .li{font-size:24px;line-height:1;flex:none}
+.lk small{display:block;font-weight:400;font-size:13px;color:var(--muted);word-break:break-all}
 </style>
 </head>
 <body>
@@ -250,6 +262,13 @@ const GENERAL = "सभी / General";
 
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const SITE_LINKS = [
+  { ic: "📰", t: "Updates", u: "https://universitygyaan.in/notices.html", d: "universitygyaan.in/notices.html" },
+  { ic: "🎓", t: "LMS", u: "https://lms.universitygyaan.in", d: "lms.universitygyaan.in" },
+  { ic: "🌐", t: "All Social Media", u: "https://join.universitygyaan.in/", d: "join.universitygyaan.in" },
+];
+const linksBlock = wide => `<nav class="links${wide ? " wide" : ""}" aria-label="University Gyaan Links"><h3>हमारे सभी Links</h3>${
+  SITE_LINKS.map(l => `<a class="lk" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer"><span class="li" aria-hidden="true">${l.ic}</span><span>${esc(l.t)}<small>${esc(l.d)}</small></span></a>`).join("")}</nav>`;
 const norm = s => String(s || "").replace(/\s+/g, " ").trim();
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
@@ -491,6 +510,7 @@ function landing(v) {
       <div class="lsub">Student का योगदान</div>
       <div class="pills"><span class="pill">Notice</span><span class="pill">PYQ</span><span class="pill">Free Notes</span><span class="pill">Syllabus</span></div>
       <button class="btn-3d" data-act="landingNext">जारी रखें</button>
+      ${linksBlock(false)}
     </div>`;
 }
 
@@ -814,6 +834,8 @@ function done(v) {
       <div class="code">${esc(S.lastCode)}</div>
       <span class="muted small">ज़रूरी नहीं, बस याद के लिए</span></div>
     <p class="small muted">कुछ घंटे बाद इस Page को दोबारा खोलिए — Approve या Reject होने पर यहीं बताएंगे।</p>
+    ${linksBlock(true)}
+    <div style="height:150px" aria-hidden="true"></div>
     <div class="actions"><div class="actions-in" style="display:grid;gap:18px">
       <button class="btn-3d navy" data-act="flow" data-to="${S.kind === "notice" ? "notice" : "material"}">एक और ${S.kind === "notice" ? "Notice" : "Material"} भेजें</button>
       <button class="btn-3d soft" data-act="home">मेरे Page पर जाएँ</button></div></div>`;
