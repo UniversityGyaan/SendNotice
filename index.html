@@ -390,6 +390,11 @@ const ST = {
     check: a => a.ndate ? "" : "तारीख़ चुनें।",
     disp: a => a.ndate ? a.ndate.split("-").reverse().join("-") : "—" },
 
+  src: txtStep({ id: "src", label: "Official Link", q: "Official website का Link (अगर है)", optional: true, max: 300,
+    hint: "University या College की Official site पर यह जहाँ दिखा हो, वह Link पेस्ट करें। इससे Admin जल्दी और भरोसे से Approve कर पाते हैं। नहीं है तो 'छोड़ें' दबाएँ।",
+    ph: "https://...",
+    check(a) { const v = norm(a.src); if (!v) return ""; return /^https?:\/\/[^\s]+\.[^\s]+$/i.test(v) ? "" : "सही Link लिखें (https:// से शुरू होना चाहिए)।"; } }),
+
   /* ----- Study Material ----- */
   mt: { id: "mt", t: "choice", label: "क्या भेज रहे हैं", q: "आप क्या भेजना चाहते हैं?", hint: "एक चुनें — उसी के हिसाब से आगे के सवाल आएँगे।",
     opts: MATERIALS, check: a => a.mt ? "" : "एक Option चुनें।", disp: a => (MATERIALS.find(m => m.v === a.mt) || {}).l || "" },
@@ -430,12 +435,12 @@ ST.subjOpt = Object.assign({}, ST.subj, { id: "subj", optional: true, hint: "प
 function stepsFor(f) {
   const a = f.ans, tail = [ST.file, ST.credit, ST.review];
   let list;
-  if (f.kind === "notice") list = [ST.nk, ST.nuni, ST.ntitle, ST.ndate, ...tail];
+  if (f.kind === "notice") list = [ST.nk, ST.nuni, ST.ntitle, ST.ndate, ST.src, ...tail];
   else switch (a.mt) {
     case "PYQ": list = [ST.mt, ST.cls, ST.subj, ST.sem, ST.year, ST.muni, ...tail]; break;
     case "Notes": list = [ST.mt, ST.cls, ST.subj, ST.sem, ST.unit, ST.muni, ...tail]; break;
     case "Model Paper": list = [ST.mt, ST.cls, ST.subj, ST.sem, ST.muni, ...tail]; break;
-    case "Syllabus": list = [ST.mt, ST.cls, ST.subj, ST.muni, ...tail]; break;
+    case "Syllabus": list = [ST.mt, ST.cls, ST.subj, ST.muni, ST.src, ...tail]; break;
     case "Book": list = [ST.mt, ST.cls, ST.subj, ST.btitle, ST.author, ST.muniOpt, ...tail]; break;
     case "Other": list = [ST.mt, ST.otitle, ST.cls, ST.subjOpt, ST.muniOpt, ...tail]; break;
     default: list = [ST.mt];
@@ -768,6 +773,7 @@ function buildRecord() {
   const uniId = a.uni || "__general";
   const uni = uniId === "__other" ? { id: "__other", name: norm(a.uni_o) } : uniId === "__general" ? { id: "__general", name: GENERAL } : { id: uniId, name: a.uni_n };
   const base = { name: u.name, college: "UG-" + deviceId(), credit: !!a.credit, ts: Date.now(), uni_id: uni.id, uni_name: uni.name };
+  const srcLink = norm(a.src); if (srcLink && /^https?:\/\//i.test(srcLink)) base.src = srcLink.slice(0, 300);
   if (f.kind === "notice") {
     const title = norm(a.title);
     return { rec: Object.assign(base, { kind: "notice", title, notice_date: a.ndate || "" }), title };
